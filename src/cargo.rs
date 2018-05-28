@@ -45,6 +45,12 @@ impl Cargo {
     }
 }
 
+impl Default for Cargo {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 /// The `build` subcommand.
 pub struct CargoBuild {
     cmd: process::Command,
@@ -106,6 +112,12 @@ impl CargoBuild {
     }
 }
 
+impl Default for CargoBuild {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 /// The `test` subcommand.
 pub struct CargoTest {
     cmd: process::Command,
@@ -159,6 +171,12 @@ impl CargoTest {
 
     pub fn exec(self) -> Result<MessageItr, failure::Error> {
         MessageItr::from_command(self.cmd)
+    }
+}
+
+impl Default for CargoTest {
+    fn default() -> Self {
+        Self::new()
     }
 }
 
