@@ -2,6 +2,13 @@
 name = "escargot"
 version = "0.1.0"
 authors = ["Ed Page <eopage@gmail.com>"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/crate-ci/escargot.git"
+homepage = "https://github.com/crate-ci/escargot"
+documentation = "http://docs.rs/escargot/"
+readme = "README.md"
+categories = ["development-tools::build-utils"]
+keywords = ["cargo", "packaging"]
 
 [dependencies]
 failure = "0.1"
