@@ -14,7 +14,7 @@ Add to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-escargot = "0.1"
+escargot = "0.2"
 ```
 
 ## Why escargot
