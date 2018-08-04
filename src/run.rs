@@ -5,6 +5,27 @@ use error::*;
 use msg::*;
 
 /// The `run` subcommand (emulated).
+///
+/// Created via [`CargoBuild::run`].
+///
+/// Benefits over spawning `cargo run`:
+/// - Able to cache binary path, avoiding cargo overhead.
+/// - Independent of CWD.
+/// - stdout/stderr are clean of `cargo run` output.
+///
+/// # Example
+///
+/// ```rust
+/// let run = escargot::CargoBuild::new()
+///     .bin("bin_fixture")
+///     .current_release()
+///     .current_target()
+///     .run()
+///     .unwrap();
+/// println!("artifact={}", run.path().display());
+/// ```
+///
+/// [`CargoBuild::run`]: struct.CargoBuild.html#method.run
 pub struct CargoRun {
     bin: path::PathBuf,
 }
@@ -15,10 +36,28 @@ impl CargoRun {
         Ok(Self { bin })
     }
 
+    /// Path to the specified binary.
+    ///
+    /// This is to support alternative ways of launching the binary besides [`Command`].
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// let run = escargot::CargoBuild::new()
+    ///     .bin("bin_fixture")
+    ///     .current_release()
+    ///     .current_target()
+    ///     .run()
+    ///     .unwrap();
+    /// println!("artifact={}", run.path().display());
+    /// ```
+    ///
+    /// [Command]: https://doc.rust-lang.org/std/process/struct.Command.html
     pub fn path(&self) -> &path::Path {
         &self.bin
     }
 
+    /// Run the build artifact.
     pub fn command(&self) -> process::Command {
         process::Command::new(self.path())
     }

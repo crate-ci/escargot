@@ -49,7 +49,7 @@ impl CargoTest {
     }
 
     /// Build for the current process' triple.
-    pub fn current_taget(self) -> Self {
+    pub fn current_target(self) -> Self {
         self.target(CURRENT_TARGET)
     }
 
@@ -61,6 +61,7 @@ impl CargoTest {
         self
     }
 
+    /// Test the configured target, returning compiler messages.
     pub fn exec(self) -> CargoResult<MessageItr> {
         MessageItr::from_command(self.cmd)
     }

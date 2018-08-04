@@ -1,6 +1,10 @@
 use std::error::Error;
 use std::fmt;
 
+/// Result of a cargo command.
+pub type CargoResult<T> = Result<T, CargoError>;
+
+/// For programmatically processing failures.
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum ErrorKind {
     /// Spawning the cargo subommand failed.
@@ -21,6 +25,7 @@ impl fmt::Display for ErrorKind {
     }
 }
 
+/// Cargo command failure information.
 #[derive(Debug)]
 pub struct CargoError {
     kind: ErrorKind,
@@ -29,7 +34,7 @@ pub struct CargoError {
 }
 
 impl CargoError {
-    pub fn new(kind: ErrorKind) -> Self {
+    pub(crate) fn new(kind: ErrorKind) -> Self {
         Self {
             kind,
             context: None,
@@ -37,7 +42,7 @@ impl CargoError {
         }
     }
 
-    pub fn set_context<S>(mut self, context: S) -> Self
+    pub(crate) fn set_context<S>(mut self, context: S) -> Self
     where
         S: Into<String>,
     {
@@ -46,7 +51,7 @@ impl CargoError {
         self
     }
 
-    pub fn set_cause<E>(mut self, cause: E) -> Self
+    pub(crate) fn set_cause<E>(mut self, cause: E) -> Self
     where
         E: Error + Send + Sync + 'static,
     {
@@ -55,6 +60,7 @@ impl CargoError {
         self
     }
 
+    /// For programmatically processing failures.
     pub fn kind(&self) -> ErrorKind {
         self.kind
     }
@@ -85,5 +91,3 @@ impl fmt::Display for CargoError {
         Ok(())
     }
 }
-
-pub type CargoResult<T> = Result<T, CargoError>;
