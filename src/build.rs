@@ -5,6 +5,7 @@ use cargo::Cargo;
 use cargo::CURRENT_TARGET;
 use error::*;
 use msg::*;
+use run::CargoRun;
 
 /// The `build` subcommand.
 pub struct CargoBuild {
@@ -68,6 +69,11 @@ impl CargoBuild {
 
     pub fn exec(self) -> CargoResult<MessageItr> {
         MessageItr::from_command(self.cmd)
+    }
+
+    pub fn run(self) -> CargoResult<CargoRun> {
+        let msgs = MessageItr::from_command(self.cmd)?;
+        CargoRun::with_messages(msgs)
     }
 }
 
