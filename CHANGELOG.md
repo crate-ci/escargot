@@ -1,3 +1,16 @@
+<a name="0.3.0"></a>
+## 0.3.0 (2018-08-05)
+
+
+#### Features
+
+*   Emulate run subcommand ([df4607a8](https://github.com/crate-ci/escargot/commit/df4607a8170a27d746e7c259e05c478a02d570e5))
+
+#### Breaking Changes
+
+*  `current_target` spelling is corrected ([df4607a8](https://github.com/crate-ci/escargot/commit/df4607a8170a27d746e7c259e05c478a02d570e5))
+*  Removed parts of `CargoError` ([df4607a8](https://github.com/crate-ci/escargot/commit/df4607a8170a27d746e7c259e05c478a02d570e5))
+
 <a name="0.2.0"></a>
 ## 0.2.0 (2018-06-27)
 

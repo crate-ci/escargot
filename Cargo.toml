@@ -1,6 +1,6 @@
 [package]
 name = "escargot"
-version = "0.2.0"
+version = "0.3.0"
 authors = ["Ed Page <eopage@gmail.com>"]
 description = "Cargo API written in Paris"
 license = "MIT OR Apache-2.0"
