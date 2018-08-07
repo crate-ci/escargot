@@ -1,3 +1,13 @@
+<a name="0.3.1"></a>
+## 0.3.1 (2018-08-07)
+
+
+#### Bug Fixes
+
+* **run:**  Example support ([99029550](https://github.com/crate-ci/escargot/commit/990295504ebd195f330e7b3e19b01e86a7b401f7), closes [#7](https://github.com/crate-ci/escargot/issues/7))
+
+
+
 <a name="0.3.0"></a>
 ## 0.3.0 (2018-08-05)
 
