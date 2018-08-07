@@ -27,13 +27,25 @@ use msg::*;
 ///
 /// [`CargoBuild::run`]: struct.CargoBuild.html#method.run
 pub struct CargoRun {
-    bin: path::PathBuf,
+    bin_path: path::PathBuf,
 }
 
 impl CargoRun {
-    pub(crate) fn with_messages(msgs: MessageItr) -> CargoResult<Self> {
-        let bin = extract_binary_path(msgs)?;
-        Ok(Self { bin })
+    pub(crate) fn with_messages(
+        msgs: MessageItr,
+        is_bin: bool,
+        is_example: bool,
+    ) -> CargoResult<Self> {
+        let kind = match (is_bin, is_example) {
+            (true, true) => {
+                return Err(CargoError::new(ErrorKind::CommandFailed)
+                    .set_context("Ambiguous which binary is intended, multiple selected"));
+            }
+            (false, true) => "example",
+            _ => "bin",
+        };
+        let bin_path = extract_binary_path(msgs, kind)?;
+        Ok(Self { bin_path })
     }
 
     /// Path to the specified binary.
@@ -51,10 +63,20 @@ impl CargoRun {
     ///     .unwrap();
     /// println!("artifact={}", run.path().display());
     /// ```
+    /// or
+    /// ```rust
+    /// let run = escargot::CargoBuild::new()
+    ///     .example("example_fixture")
+    ///     .current_release()
+    ///     .current_target()
+    ///     .run()
+    ///     .unwrap();
+    /// println!("artifact={}", run.path().display());
+    /// ```
     ///
     /// [Command]: https://doc.rust-lang.org/std/process/struct.Command.html
     pub fn path(&self) -> &path::Path {
-        &self.bin
+        &self.bin_path
     }
 
     /// Run the build artifact.
@@ -97,8 +119,8 @@ fn extract_filenames(msg: &Message, kind: &str) -> Option<path::PathBuf> {
     }
 }
 
-fn extract_binary_path(msgs: MessageItr) -> Result<path::PathBuf, CargoError> {
-    let bins: Vec<_> = msgs.filter_map(|m| extract_filenames(&m, "bin")).collect();
+fn extract_binary_path(msgs: MessageItr, kind: &str) -> Result<path::PathBuf, CargoError> {
+    let bins: Vec<_> = msgs.filter_map(|m| extract_filenames(&m, kind)).collect();
     if bins.is_empty() {
         return Err(CargoError::new(ErrorKind::CommandFailed).set_context("No binaries in crate"));
     } else if bins.len() != 1 {

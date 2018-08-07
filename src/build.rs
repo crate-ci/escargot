@@ -21,6 +21,8 @@ use run::CargoRun;
 /// ```
 pub struct CargoBuild {
     cmd: process::Command,
+    bin: bool,
+    example: bool,
 }
 
 impl CargoBuild {
@@ -42,7 +44,11 @@ impl CargoBuild {
     }
 
     pub(crate) fn with_command(cmd: process::Command) -> Self {
-        Self { cmd }
+        Self {
+            cmd,
+            bin: false,
+            example: false,
+        }
     }
 
     /// Build only `name` binary.
@@ -55,7 +61,8 @@ impl CargoBuild {
     ///     .exec()
     ///     .unwrap();
     /// ```
-    pub fn bin<S: AsRef<ffi::OsStr>>(self, name: S) -> Self {
+    pub fn bin<S: AsRef<ffi::OsStr>>(mut self, name: S) -> Self {
+        self.bin = true;
         self.arg("--bin").arg(name)
     }
 
@@ -69,7 +76,8 @@ impl CargoBuild {
     ///     .exec()
     ///     .unwrap();
     /// ```
-    pub fn example<S: AsRef<ffi::OsStr>>(self, name: S) -> Self {
+    pub fn example<S: AsRef<ffi::OsStr>>(mut self, name: S) -> Self {
+        self.example = true;
         self.arg("--example").arg(name)
     }
 
@@ -128,7 +136,7 @@ impl CargoBuild {
     /// ```
     pub fn run(self) -> CargoResult<CargoRun> {
         let msgs = MessageItr::from_command(self.cmd)?;
-        CargoRun::with_messages(msgs)
+        CargoRun::with_messages(msgs, self.bin, self.example)
     }
 }
 
