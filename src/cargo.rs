@@ -1,3 +1,4 @@
+use std::env;
 use std::ffi;
 use std::process;
 use std::str;
@@ -7,6 +8,10 @@ use test::CargoTest;
 
 /// The current process' target triple.
 pub const CURRENT_TARGET: &str = include_str!(concat!(env!("OUT_DIR"), "/current_target.txt"));
+
+lazy_static! {
+    static ref CARBO_BIN: ffi::OsString = env::var_os("CARGO").unwrap_or_else(|| "cargo".into());
+}
 
 /// Top-level command.
 #[derive(Debug)]
@@ -18,7 +23,7 @@ impl Cargo {
     /// Create a top-level command.
     pub fn new() -> Self {
         Self {
-            cmd: process::Command::new("cargo"),
+            cmd: process::Command::new(CARBO_BIN.as_os_str()),
         }
     }
 
