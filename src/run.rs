@@ -32,7 +32,7 @@ pub struct CargoRun {
 
 impl CargoRun {
     pub(crate) fn with_messages(
-        msgs: MessageItr,
+        msgs: MessageIter,
         is_bin: bool,
         is_example: bool,
     ) -> CargoResult<Self> {
@@ -119,7 +119,7 @@ fn extract_filenames(msg: &Message, kind: &str) -> Option<path::PathBuf> {
     }
 }
 
-fn extract_binary_path(msgs: MessageItr, kind: &str) -> Result<path::PathBuf, CargoError> {
+fn extract_binary_path(msgs: MessageIter, kind: &str) -> Result<path::PathBuf, CargoError> {
     let bins: Vec<_> = msgs.filter_map(|m| extract_filenames(&m, kind)).collect();
     if bins.is_empty() {
         return Err(CargoError::new(ErrorKind::CommandFailed).set_context("No binaries in crate"));

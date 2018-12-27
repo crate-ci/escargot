@@ -137,8 +137,8 @@ impl CargoBuild {
     }
 
     /// Build the configured target, returning compiler messages.
-    pub fn exec(self) -> CargoResult<MessageItr> {
-        MessageItr::from_command(self.cmd)
+    pub fn exec(self) -> CargoResult<MessageIter> {
+        MessageIter::from_command(self.cmd)
     }
 
     /// Provide a proxy for running the built target.
@@ -155,7 +155,7 @@ impl CargoBuild {
     /// println!("artifact={}", run.path().display());
     /// ```
     pub fn run(self) -> CargoResult<CargoRun> {
-        let msgs = MessageItr::from_command(self.cmd)?;
+        let msgs = MessageIter::from_command(self.cmd)?;
         CargoRun::with_messages(msgs, self.bin, self.example)
     }
 }

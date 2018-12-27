@@ -8,10 +8,10 @@ use serde_json;
 use error::*;
 
 /// Messages returned from a cargo sub-command.
-pub struct MessageItr(vec::IntoIter<Message>);
+pub struct MessageIter(vec::IntoIter<Message>);
 
-impl MessageItr {
-    pub(crate) fn from_command(mut cmd: process::Command) -> CargoResult<MessageItr> {
+impl MessageIter {
+    pub(crate) fn from_command(mut cmd: process::Command) -> CargoResult<MessageIter> {
         let output = cmd
             .output()
             .map_err(|e| CargoError::new(ErrorKind::InvalidCommand).set_cause(e))?;
@@ -34,7 +34,7 @@ impl MessageItr {
     }
 }
 
-impl Iterator for MessageItr {
+impl Iterator for MessageIter {
     type Item = Message;
 
     #[inline]
