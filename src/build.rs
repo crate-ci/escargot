@@ -113,6 +113,21 @@ impl CargoBuild {
         self.arg("--target-dir").arg(dir)
     }
 
+    /// Activate all available features
+    pub fn all_features(self) -> Self {
+        self.arg("--all-features")
+    }
+
+    /// Do not activate the `default` feature
+    pub fn no_default_features(self) -> Self {
+        self.arg("--no-default-features")
+    }
+
+    /// Space-separated list of features to activate
+    pub fn features<S: AsRef<ffi::OsStr>>(self, features: S) -> Self {
+        self.arg("-features").arg(features)
+    }
+
     /// Manually pass an argument that is unsupported.
     ///
     /// Caution: Passing in `--` can throw off the API.
