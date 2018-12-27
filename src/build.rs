@@ -108,6 +108,26 @@ impl CargoBuild {
         self.target(CURRENT_TARGET)
     }
 
+    /// Directory for all generated artifacts
+    pub fn target_dir<S: AsRef<ffi::OsStr>>(self, dir: S) -> Self {
+        self.arg("--target-dir").arg(dir)
+    }
+
+    /// Activate all available features
+    pub fn all_features(self) -> Self {
+        self.arg("--all-features")
+    }
+
+    /// Do not activate the `default` feature
+    pub fn no_default_features(self) -> Self {
+        self.arg("--no-default-features")
+    }
+
+    /// Space-separated list of features to activate
+    pub fn features<S: AsRef<ffi::OsStr>>(self, features: S) -> Self {
+        self.arg("-features").arg(features)
+    }
+
     /// Manually pass an argument that is unsupported.
     ///
     /// Caution: Passing in `--` can throw off the API.
@@ -117,8 +137,8 @@ impl CargoBuild {
     }
 
     /// Build the configured target, returning compiler messages.
-    pub fn exec(self) -> CargoResult<MessageItr> {
-        MessageItr::from_command(self.cmd)
+    pub fn exec(self) -> CargoResult<MessageIter> {
+        MessageIter::from_command(self.cmd)
     }
 
     /// Provide a proxy for running the built target.
@@ -135,7 +155,7 @@ impl CargoBuild {
     /// println!("artifact={}", run.path().display());
     /// ```
     pub fn run(self) -> CargoResult<CargoRun> {
-        let msgs = MessageItr::from_command(self.cmd)?;
+        let msgs = MessageIter::from_command(self.cmd)?;
         CargoRun::with_messages(msgs, self.bin, self.example)
     }
 }

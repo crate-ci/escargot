@@ -62,8 +62,8 @@ impl CargoTest {
     }
 
     /// Test the configured target, returning compiler messages.
-    pub fn exec(self) -> CargoResult<MessageItr> {
-        MessageItr::from_command(self.cmd)
+    pub fn exec(self) -> CargoResult<MessageIter> {
+        MessageIter::from_command(self.cmd)
     }
 }
 
