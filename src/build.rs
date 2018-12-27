@@ -108,6 +108,11 @@ impl CargoBuild {
         self.target(CURRENT_TARGET)
     }
 
+    /// Directory for all generated artifacts
+    pub fn target_dir<S: AsRef<ffi::OsStr>>(self, dir: S) -> Self {
+        self.arg("--target-dir").arg(dir)
+    }
+
     /// Manually pass an argument that is unsupported.
     ///
     /// Caution: Passing in `--` can throw off the API.
