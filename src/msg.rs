@@ -12,7 +12,8 @@ pub struct MessageItr(vec::IntoIter<Message>);
 
 impl MessageItr {
     pub(crate) fn from_command(mut cmd: process::Command) -> CargoResult<MessageItr> {
-        let output = cmd.output()
+        let output = cmd
+            .output()
             .map_err(|e| CargoError::new(ErrorKind::InvalidCommand).set_cause(e))?;
         if !output.status.success() {
             return Err(CargoError::new(ErrorKind::CommandFailed)
