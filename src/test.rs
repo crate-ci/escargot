@@ -26,6 +26,11 @@ impl CargoTest {
         self.arg("--no-run")
     }
 
+    /// Path to Cargo.toml
+    pub fn manifest_path<S: AsRef<ffi::OsStr>>(self, path: S) -> Self {
+        self.arg("--manifest-path").arg(path)
+    }
+
     /// Build artifacts in release mode, with optimizations.
     pub fn release(self) -> Self {
         self.arg("--release")
