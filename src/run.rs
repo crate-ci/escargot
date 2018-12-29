@@ -120,7 +120,14 @@ fn extract_filenames(msg: &Message, kind: &str) -> Option<path::PathBuf> {
 }
 
 fn extract_binary_path(msgs: MessageIter, kind: &str) -> Result<path::PathBuf, CargoError> {
-    let bins: Vec<_> = msgs.filter_map(|m| extract_filenames(&m, kind)).collect();
+    let mut bins = Vec::with_capacity(1);
+    for msg in msgs {
+        let msg = msg?;
+        info!("{:?}", msg);
+        if let Some(path) = extract_filenames(&msg, kind) {
+            bins.push(path);
+        }
+    }
     if bins.is_empty() {
         return Err(CargoError::new(ErrorKind::CommandFailed).set_context("No binaries in crate"));
     } else if bins.len() != 1 {
