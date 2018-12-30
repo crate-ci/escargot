@@ -37,10 +37,12 @@ extern crate lazy_static;
 #[macro_use]
 extern crate log;
 
-mod cargo;
-pub use cargo::*;
 mod build;
 pub use build::*;
+mod cargo;
+pub use cargo::*;
+mod msg;
+pub use msg::*;
 mod run;
 pub use run::*;
 mod test;
@@ -48,4 +50,3 @@ pub use test::*;
 
 pub mod error;
 pub mod format;
-pub mod msg;
