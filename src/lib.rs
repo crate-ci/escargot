@@ -46,5 +46,5 @@ pub use run::*;
 mod test;
 pub use test::*;
 
-pub mod msg;
 pub mod error;
+pub mod msg;

@@ -8,9 +8,6 @@ fn test_run() {
         .current_target()
         .run()
         .unwrap();
-    let output = cmd
-        .command()
-        .output()
-        .unwrap();
+    let output = cmd.command().output().unwrap();
     assert!(output.status.success());
 }

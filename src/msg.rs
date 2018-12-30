@@ -41,25 +41,27 @@ impl MessageIter {
     #[inline]
     fn next_msg(&mut self) -> CargoResult<Option<Message>> {
         let mut content = String::new();
-        let len = self.0.stdout.read_line(&mut content).map_err(|e| {
-            CargoError::new(ErrorKind::InvalidOutput)
-                .set_cause(e)
-        })?;
+        let len = self
+            .0
+            .stdout
+            .read_line(&mut content)
+            .map_err(|e| CargoError::new(ErrorKind::InvalidOutput).set_cause(e))?;
         if 0 < len {
             Ok(Some(Message(content)))
         } else {
-            let status = self.0.child.wait().map_err(|e| {
-                CargoError::new(ErrorKind::InvalidOutput)
-                    .set_cause(e)
-            })?;
-            if !status.success() && ! self.0.done {
+            let status = self
+                .0
+                .child
+                .wait()
+                .map_err(|e| CargoError::new(ErrorKind::InvalidOutput).set_cause(e))?;
+            if !status.success() && !self.0.done {
                 self.0.done = true;
 
                 let mut data = vec![];
-                self.0.stderr.read_to_end(&mut data).map_err(|e| {
-                    CargoError::new(ErrorKind::InvalidOutput)
-                        .set_cause(e)
-                })?;
+                self.0
+                    .stderr
+                    .read_to_end(&mut data)
+                    .map_err(|e| CargoError::new(ErrorKind::InvalidOutput).set_cause(e))?;
                 let err = CargoError::new(ErrorKind::CommandFailed)
                     .set_context(String::from_utf8_lossy(&data));
                 Err(err)
@@ -82,11 +84,11 @@ impl Iterator for MessageIter {
 
     #[inline]
     fn next(&mut self) -> Option<CargoResult<Message>> {
-         match self.next_msg() {
-             Ok(Some(x)) => Some(Ok(x)),
-             Ok(None) => None,
-             Err(e) => Some(Err(e)),
-         }
+        match self.next_msg() {
+            Ok(Some(x)) => Some(Ok(x)),
+            Ok(None) => None,
+            Err(e) => Some(Err(e)),
+        }
     }
 }
 
