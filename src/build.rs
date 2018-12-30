@@ -51,6 +51,20 @@ impl CargoBuild {
         }
     }
 
+    /// Build from `name` package in workspaces.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// escargot::CargoBuild::new()
+    ///     .package("escargot")
+    ///     .bin("bin_fixture")
+    ///     .exec()
+    ///     .unwrap();
+    /// ```
+    pub fn package<S: AsRef<ffi::OsStr>>(self, name: S) -> Self {
+        self.arg("--package").arg(name)
+    }
     /// Build only `name` binary.
     ///
     /// # Example
