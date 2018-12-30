@@ -2,6 +2,7 @@ use std::path;
 use std::process;
 
 use error::*;
+use format;
 use msg::*;
 
 /// The `run` subcommand (emulated).
@@ -85,37 +86,55 @@ impl CargoRun {
     }
 }
 
-#[derive(Deserialize)]
-struct MessageTarget<'a> {
-    #[serde(borrow)]
-    crate_types: Vec<&'a str>,
-    #[serde(borrow)]
-    kind: Vec<&'a str>,
+fn extract_filenames<'a>(msg: &'a format::Message, desired_kind: &str) -> Option<&'a path::Path> {
+    match msg {
+        format::Message::CompilerArtifact(art) => {
+            if art.target.crate_types == ["bin"] && art.target.kind == [desired_kind] {
+                Some(art.filenames.iter().next().expect("files must exist"))
+            } else {
+                None
+            }
+        }
+        _ => None,
+    }
 }
 
-#[derive(Deserialize)]
-struct MessageFilter<'a> {
-    #[serde(borrow)]
-    reason: &'a str,
-    target: MessageTarget<'a>,
-    filenames: Vec<path::PathBuf>,
-}
-
-fn extract_filenames(msg: &Message, kind: &str) -> Option<path::PathBuf> {
-    let filter: MessageFilter = msg.convert().ok()?;
-    if filter.reason != "compiler-artifact"
-        || filter.target.crate_types != ["bin"]
-        || filter.target.kind != [kind]
-    {
-        None
-    } else {
-        Some(
-            filter
-                .filenames
-                .into_iter()
-                .next()
-                .expect("files must exist"),
-        )
+fn log_message(msg: &format::Message) {
+    match msg {
+        format::Message::CompilerArtifact(ref art) => {
+            trace!(
+                "Building {} {}",
+                art.package_id.name(),
+                art.package_id.version()
+            );
+        }
+        format::Message::CompilerMessage(ref comp) => {
+            let content = comp
+                .message
+                .rendered
+                .as_ref()
+                .map(|s| s.as_ref())
+                .unwrap_or(comp.message.message.as_ref());
+            match comp.message.level {
+                format::diagnostic::DiagnosticLevel::Ice => error!("{}", content),
+                format::diagnostic::DiagnosticLevel::Error => error!("{}", content),
+                format::diagnostic::DiagnosticLevel::Warning => warn!("{}", content),
+                format::diagnostic::DiagnosticLevel::Note => info!("{}", content),
+                format::diagnostic::DiagnosticLevel::Help => info!("{}", content),
+                #[cfg(not(feature = "strict_unstable"))]
+                _ => warn!("Unknown message: {:#?}", msg),
+            }
+        }
+        format::Message::BuildScriptExecuted(ref script) => {
+            trace!(
+                "Ran script from {} {}",
+                script.package_id.name(),
+                script.package_id.version()
+            );
+        }
+        _ => {
+            warn!("Unknown message: {:#?}", msg);
+        }
     }
 }
 
@@ -123,9 +142,10 @@ fn extract_binary_path(msgs: MessageIter, kind: &str) -> Result<path::PathBuf, C
     let mut bins = Vec::with_capacity(1);
     for msg in msgs {
         let msg = msg?;
-        info!("{:?}", msg);
+        let msg: format::Message = msg.convert()?;
+        log_message(&msg);
         if let Some(path) = extract_filenames(&msg, kind) {
-            bins.push(path);
+            bins.push(path.to_path_buf());
         }
     }
     if bins.is_empty() {

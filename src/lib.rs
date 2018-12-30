@@ -47,4 +47,5 @@ mod test;
 pub use test::*;
 
 pub mod error;
+pub mod format;
 pub mod msg;
