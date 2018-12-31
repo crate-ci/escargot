@@ -4,7 +4,6 @@ use std::process;
 use std::str;
 
 use build::CargoBuild;
-use test::CargoTest;
 
 /// The current process' target triplet.
 pub const CURRENT_TARGET: &str = include_str!(concat!(env!("OUT_DIR"), "/current_target.txt"));
@@ -39,12 +38,6 @@ impl Cargo {
     pub fn build(mut self) -> CargoBuild {
         self.cmd.arg("build").arg("--message-format=json");
         CargoBuild::with_command(self.cmd)
-    }
-
-    /// Run the `test` subcommand.
-    pub fn test(mut self) -> CargoTest {
-        self.cmd.arg("test").arg("--message-format=json");
-        CargoTest::with_command(self.cmd)
     }
 }
 

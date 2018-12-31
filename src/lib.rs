@@ -57,8 +57,6 @@ mod msg;
 pub use msg::*;
 mod run;
 pub use run::*;
-mod test;
-pub use test::*;
 
 pub mod error;
 pub mod format;
