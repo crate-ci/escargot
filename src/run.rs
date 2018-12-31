@@ -106,11 +106,7 @@ fn extract_filenames<'a>(msg: &'a format::Message, desired_kind: &str) -> Option
 fn log_message(msg: &format::Message) {
     match msg {
         format::Message::CompilerArtifact(ref art) => {
-            trace!(
-                "Building {} {}",
-                art.package_id.name(),
-                art.package_id.version()
-            );
+            trace!("Building {:#?}", art.package_id,);
         }
         format::Message::CompilerMessage(ref comp) => {
             let content = comp
@@ -130,11 +126,7 @@ fn log_message(msg: &format::Message) {
             }
         }
         format::Message::BuildScriptExecuted(ref script) => {
-            trace!(
-                "Ran script from {} {}",
-                script.package_id.name(),
-                script.package_id.version()
-            );
+            trace!("Ran script from {:#?}", script.package_id);
         }
         #[cfg(not(feature = "strict_unstable"))]
         _ => {
@@ -147,11 +139,7 @@ fn log_message(msg: &format::Message) {
 fn log_message(msg: &format::Message) {
     match msg {
         format::Message::CompilerArtifact(ref art) => {
-            println!(
-                "Building {} {}",
-                art.package_id.name(),
-                art.package_id.version()
-            );
+            println!("Building {:#?}", art.package_id,);
         }
         format::Message::CompilerMessage(ref comp) => {
             let content = comp
@@ -171,11 +159,7 @@ fn log_message(msg: &format::Message) {
             }
         }
         format::Message::BuildScriptExecuted(ref script) => {
-            println!(
-                "Ran script from {} {}",
-                script.package_id.name(),
-                script.package_id.version()
-            );
+            println!("Ran script from {:#?}", script.package_id);
         }
         #[cfg(not(feature = "strict_unstable"))]
         _ => {
