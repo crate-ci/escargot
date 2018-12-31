@@ -35,8 +35,13 @@ impl Cargo {
     }
 
     /// Run the `build` subcommand.
-    pub fn build(mut self) -> CargoBuild {
-        self.cmd.arg("build").arg("--message-format=json");
+    pub fn build(self) -> CargoBuild {
+        self.build_with("build")
+    }
+
+    /// Run a custom `build` subcommand.
+    pub fn build_with<S: AsRef<ffi::OsStr>>(mut self, name: S) -> CargoBuild {
+        self.cmd.arg(name).arg("--message-format=json");
         CargoBuild::with_command(self.cmd)
     }
 }
