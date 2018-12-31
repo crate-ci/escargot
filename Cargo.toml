@@ -15,3 +15,9 @@ keywords = ["cargo", "packaging"]
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 lazy_static = "1.1.0"
+log = "0.4"
+
+[features]
+# This mostly exists for testing, to catch new fields and enum variants being
+# added (for the cases we actually cover).
+strict_unstable = []

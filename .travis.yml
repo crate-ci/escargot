@@ -4,7 +4,6 @@ rust:
 - 1.31.0  # oldest supported version
 - stable
 - beta
-- nightly
 matrix:
   include:
   - env: RUSTFMT
@@ -33,6 +32,8 @@ install:
 script:
 - cargo check --verbose
 - cargo test  --verbose
+# Audit `format` for new features.
+- cargo test  --verbose --features "strict_unstable"
 
 branches:
   only:

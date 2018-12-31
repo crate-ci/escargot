@@ -1,3 +1,5 @@
+//! Error reporting API.
+
 use std::error::Error;
 use std::fmt;
 

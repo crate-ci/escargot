@@ -34,15 +34,19 @@ extern crate serde_json;
 #[macro_use]
 extern crate lazy_static;
 
-mod cargo;
-pub use cargo::*;
+#[macro_use]
+extern crate log;
+
 mod build;
 pub use build::*;
+mod cargo;
+pub use cargo::*;
+mod msg;
+pub use msg::*;
 mod run;
 pub use run::*;
 mod test;
 pub use test::*;
-mod msg;
-pub use msg::*;
-mod error;
-pub use error::*;
+
+pub mod error;
+pub mod format;
