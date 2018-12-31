@@ -78,7 +78,7 @@ impl CargoRun {
     /// println!("artifact={}", run.path().display());
     /// ```
     ///
-    /// [Command]: https://doc.rust-lang.org/std/process/struct.Command.html
+    /// [`Command`]: https://doc.rust-lang.org/std/process/struct.Command.html
     pub fn path(&self) -> &path::Path {
         &self.bin_path
     }

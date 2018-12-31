@@ -48,12 +48,12 @@ impl CargoTest {
         self.release()
     }
 
-    /// Build for the target triple.
+    /// Build for the target triplet.
     pub fn target<S: AsRef<ffi::OsStr>>(self, triplet: S) -> Self {
         self.arg("--target").arg(triplet)
     }
 
-    /// Build for the current process' triple.
+    /// Build for the current process' triplet.
     pub fn current_target(self) -> Self {
         self.target(CURRENT_TARGET)
     }

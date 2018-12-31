@@ -6,7 +6,7 @@ use std::str;
 use build::CargoBuild;
 use test::CargoTest;
 
-/// The current process' target triple.
+/// The current process' target triplet.
 pub const CURRENT_TARGET: &str = include_str!(concat!(env!("OUT_DIR"), "/current_target.txt"));
 
 lazy_static! {
