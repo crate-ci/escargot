@@ -9,7 +9,7 @@ fn test_fixture(name: &str) {
         .unwrap();
     for msg in msgs {
         let raw_msg = msg.unwrap();
-        let msg: escargot::error::CargoResult<escargot::format::Message> = raw_msg.convert();
+        let msg = raw_msg.decode();
         match msg {
             Ok(msg) => println!("{:#?}", msg),
             Err(err) => panic!("{}\nmsg=`{:#?}`", err, raw_msg),
@@ -60,7 +60,7 @@ fn test_error() {
     let error_idx = msgs.len() - 1;
     for msg in &msgs[0..error_idx] {
         let msg = msg.as_ref().unwrap();
-        let msg: escargot::format::Message = msg.convert().unwrap();
+        let msg = msg.decode().unwrap();
         println!("{:#?}", msg);
     }
     assert!(msgs[error_idx].is_err());

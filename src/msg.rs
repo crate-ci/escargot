@@ -7,6 +7,7 @@ use serde;
 use serde_json;
 
 use error::*;
+use format;
 
 /// Messages returned from a cargo sub-command.
 pub struct MessageIter(InnerMessageIter);
@@ -100,7 +101,12 @@ pub struct Message(String);
 
 impl Message {
     /// Deserialize the message.
-    pub fn convert<'a, T>(&'a self) -> CargoResult<T>
+    pub fn decode(&self) -> CargoResult<format::Message> {
+        self.decode_custom()
+    }
+
+    /// Deserialize the message.
+    pub fn decode_custom<'a, T>(&'a self) -> CargoResult<T>
     where
         T: serde::Deserialize<'a>,
     {

@@ -188,7 +188,7 @@ fn extract_binary_path(msgs: MessageIter, kind: &str) -> Result<path::PathBuf, C
     let mut bins = Vec::with_capacity(1);
     for msg in msgs {
         let msg = msg?;
-        let msg: format::Message = msg.convert()?;
+        let msg = msg.decode()?;
         log_message(&msg);
         if let Some(path) = extract_filenames(&msg, kind) {
             bins.push(path.to_path_buf());
