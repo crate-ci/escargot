@@ -1,9 +1,8 @@
 extern crate escargot;
 
-#[test]
-fn test_bin() {
+fn test_fixture(name: &str) {
     let msgs = escargot::CargoBuild::new()
-        .manifest_path("tests/fixtures/bin/Cargo.toml")
+        .manifest_path(&format!("tests/fixtures/{}/Cargo.toml", name))
         .current_release()
         .current_target()
         .exec()
@@ -13,36 +12,36 @@ fn test_bin() {
         let msg: escargot::format::Message = msg.convert().unwrap();
         println!("{:#?}", msg);
     }
+}
+
+#[test]
+fn test_bin() {
+    test_fixture("bin");
 }
 
 #[test]
 fn test_lib() {
-    let msgs = escargot::CargoBuild::new()
-        .manifest_path("tests/fixtures/lib/Cargo.toml")
-        .current_release()
-        .current_target()
-        .exec()
-        .unwrap();
-    for msg in msgs {
-        let msg = msg.unwrap();
-        let msg: escargot::format::Message = msg.convert().unwrap();
-        println!("{:#?}", msg);
-    }
+    test_fixture("lib");
 }
 
 #[test]
 fn test_bin_lib() {
-    let msgs = escargot::CargoBuild::new()
-        .manifest_path("tests/fixtures/bin_lib/Cargo.toml")
-        .current_release()
-        .current_target()
-        .exec()
-        .unwrap();
-    for msg in msgs {
-        let msg = msg.unwrap();
-        let msg: escargot::format::Message = msg.convert().unwrap();
-        println!("{:#?}", msg);
-    }
+    test_fixture("bin_lib");
+}
+
+#[test]
+fn test_warn() {
+    test_fixture("warn");
+}
+
+#[test]
+fn test_build_script() {
+    test_fixture("script");
+}
+
+#[test]
+fn test_dependency() {
+    test_fixture("dep");
 }
 
 #[test]
