@@ -21,6 +21,7 @@ pub enum Message<'a> {
     /// A build script successfully executed.
     #[serde(borrow)]
     BuildScriptExecuted(BuildScript<'a>),
+    #[cfg(not(feature = "strict_unstable"))]
     #[doc(hidden)]
     #[serde(other)]
     Unknown,
@@ -28,6 +29,7 @@ pub enum Message<'a> {
 
 /// A compiler-generated file.
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "strict_unstable", serde(deny_unknown_fields))]
 pub struct Artifact<'a> {
     /// The workspace member this artifact belongs to
     #[serde(borrow)]
@@ -53,6 +55,7 @@ pub struct Artifact<'a> {
 
 /// A single target (lib, bin, example, ...) provided by a crate
 #[derive(Clone, Serialize, Deserialize, Debug)]
+#[cfg_attr(feature = "strict_unstable", serde(deny_unknown_fields))]
 pub struct Target<'a> {
     /// Name as given in the `Cargo.toml` or generated from the file name
     #[serde(borrow)]
@@ -92,6 +95,7 @@ fn edition_default() -> CowStr<'static> {
 /// that this does not use `Arc` internally.
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(transparent)]
+#[cfg_attr(feature = "strict_unstable", serde(deny_unknown_fields))]
 pub struct WorkspaceMember<'a> {
     /// The raw package id as given by cargo
     #[serde(borrow)]
@@ -120,6 +124,7 @@ impl<'a> WorkspaceMember<'a> {
 /// Profile settings used to determine which compiler flags to use for a
 /// target.
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "strict_unstable", serde(deny_unknown_fields))]
 pub struct ArtifactProfile<'a> {
     /// Optimization level. Possible values are 0-3, s or z.
     #[serde(borrow)]
@@ -140,6 +145,7 @@ pub struct ArtifactProfile<'a> {
 
 /// Message left by the compiler
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "strict_unstable", serde(deny_unknown_fields))]
 pub struct FromCompiler<'a> {
     /// The workspace member this message belongs to
     #[serde(borrow)]
@@ -157,6 +163,7 @@ pub struct FromCompiler<'a> {
 
 /// Output of a Build Script execution.
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "strict_unstable", serde(deny_unknown_fields))]
 pub struct BuildScript<'a> {
     /// The workspace member this build script execution belongs to
     #[serde(borrow)]

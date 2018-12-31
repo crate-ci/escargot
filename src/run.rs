@@ -132,6 +132,7 @@ fn log_message(msg: &format::Message) {
                 script.package_id.version()
             );
         }
+        #[cfg(not(feature = "strict_unstable"))]
         _ => {
             warn!("Unknown message: {:#?}", msg);
         }
