@@ -21,3 +21,6 @@ log = "0.4"
 # This mostly exists for testing, to catch new fields and enum variants being
 # added (for the cases we actually cover).
 strict_unstable = []
+# This is for when using `escargot` in tests and you want logged output to
+# instead be printed because no logger is configured.
+print = []

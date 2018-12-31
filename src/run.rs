@@ -14,6 +14,9 @@ use msg::*;
 /// - Independent of CWD.
 /// - stdout/stderr are clean of `cargo run` output.
 ///
+/// Relevant features
+/// - `print` for logged output to be printed instead, generally for test writing.
+///
 /// # Example
 ///
 /// ```rust
@@ -75,7 +78,7 @@ impl CargoRun {
     /// println!("artifact={}", run.path().display());
     /// ```
     ///
-    /// [Command]: https://doc.rust-lang.org/std/process/struct.Command.html
+    /// [`Command`]: https://doc.rust-lang.org/std/process/struct.Command.html
     pub fn path(&self) -> &path::Path {
         &self.bin_path
     }
@@ -99,14 +102,11 @@ fn extract_filenames<'a>(msg: &'a format::Message, desired_kind: &str) -> Option
     }
 }
 
+#[cfg(not(feature = "print"))]
 fn log_message(msg: &format::Message) {
     match msg {
         format::Message::CompilerArtifact(ref art) => {
-            trace!(
-                "Building {} {}",
-                art.package_id.name(),
-                art.package_id.version()
-            );
+            trace!("Building {:#?}", art.package_id,);
         }
         format::Message::CompilerMessage(ref comp) => {
             let content = comp
@@ -126,11 +126,7 @@ fn log_message(msg: &format::Message) {
             }
         }
         format::Message::BuildScriptExecuted(ref script) => {
-            trace!(
-                "Ran script from {} {}",
-                script.package_id.name(),
-                script.package_id.version()
-            );
+            trace!("Ran script from {:#?}", script.package_id);
         }
         #[cfg(not(feature = "strict_unstable"))]
         _ => {
@@ -139,11 +135,44 @@ fn log_message(msg: &format::Message) {
     }
 }
 
+#[cfg(feature = "print")]
+fn log_message(msg: &format::Message) {
+    match msg {
+        format::Message::CompilerArtifact(ref art) => {
+            println!("Building {:#?}", art.package_id,);
+        }
+        format::Message::CompilerMessage(ref comp) => {
+            let content = comp
+                .message
+                .rendered
+                .as_ref()
+                .map(|s| s.as_ref())
+                .unwrap_or(comp.message.message.as_ref());
+            match comp.message.level {
+                format::diagnostic::DiagnosticLevel::Ice => println!("{}", content),
+                format::diagnostic::DiagnosticLevel::Error => println!("{}", content),
+                format::diagnostic::DiagnosticLevel::Warning => println!("{}", content),
+                format::diagnostic::DiagnosticLevel::Note => println!("{}", content),
+                format::diagnostic::DiagnosticLevel::Help => println!("{}", content),
+                #[cfg(not(feature = "strict_unstable"))]
+                _ => warn!("Unknown message: {:#?}", msg),
+            }
+        }
+        format::Message::BuildScriptExecuted(ref script) => {
+            println!("Ran script from {:#?}", script.package_id);
+        }
+        #[cfg(not(feature = "strict_unstable"))]
+        _ => {
+            println!("Unknown message: {:#?}", msg);
+        }
+    }
+}
+
 fn extract_binary_path(msgs: MessageIter, kind: &str) -> Result<path::PathBuf, CargoError> {
     let mut bins = Vec::with_capacity(1);
     for msg in msgs {
         let msg = msg?;
-        let msg: format::Message = msg.convert()?;
+        let msg = msg.decode()?;
         log_message(&msg);
         if let Some(path) = extract_filenames(&msg, kind) {
             bins.push(path.to_path_buf());

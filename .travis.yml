@@ -32,6 +32,7 @@ install:
 script:
 - cargo check --verbose
 - cargo test  --verbose
+- cargo test  --verbose --features "print"
 # Audit `format` for new features.
 - cargo test  --verbose --features "strict_unstable"
 

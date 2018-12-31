@@ -93,32 +93,13 @@ fn edition_default() -> CowStr<'static> {
 
 /// A workspace member. This is basically identical to `cargo::core::package_id::PackageId`, except
 /// that this does not use `Arc` internally.
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
 #[serde(transparent)]
 #[cfg_attr(feature = "strict_unstable", serde(deny_unknown_fields))]
 pub struct WorkspaceMember<'a> {
     /// The raw package id as given by cargo
     #[serde(borrow)]
-    pub raw: CowStr<'a>,
-}
-
-impl<'a> WorkspaceMember<'a> {
-    fn part(&self, n: usize) -> &str {
-        self.raw.splitn(3, ' ').nth(n).unwrap()
-    }
-    /// The name of the crate
-    pub fn name(&self) -> &str {
-        self.part(0)
-    }
-    /// The version of the crate
-    pub fn version(&self) -> &str {
-        self.part(1)
-    }
-    /// The path to the crate in url format
-    pub fn url(&self) -> &str {
-        let url = self.part(2);
-        &url[1..url.len() - 1]
-    }
+    raw: CowStr<'a>,
 }
 
 /// Profile settings used to determine which compiler flags to use for a

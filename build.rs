@@ -6,7 +6,7 @@ use std::path;
 fn main() {
     println!("cargo:rerun-if-changed=build.rs");
 
-    // env::ARCH doesn't include full triple, and AFAIK there isn't a nicer way of getting the full triple
+    // env::ARCH doesn't include full triplet, and AFAIK there isn't a nicer way of getting the full triplet
     // (see lib.rs for the rest of this hack)
     let out = path::PathBuf::from(env::var_os("OUT_DIR").expect("run within cargo"))
         .join("current_target.txt");
