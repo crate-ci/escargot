@@ -9,7 +9,9 @@ fn test_bin() {
         .exec()
         .unwrap();
     for msg in msgs {
-        println!("{:?}", msg.unwrap());
+        let msg = msg.unwrap();
+        let msg: escargot::format::Message = msg.convert().unwrap();
+        println!("{:#?}", msg);
     }
 }
 
@@ -22,7 +24,9 @@ fn test_lib() {
         .exec()
         .unwrap();
     for msg in msgs {
-        println!("{:?}", msg.unwrap());
+        let msg = msg.unwrap();
+        let msg: escargot::format::Message = msg.convert().unwrap();
+        println!("{:#?}", msg);
     }
 }
 
@@ -35,7 +39,9 @@ fn test_bin_lib() {
         .exec()
         .unwrap();
     for msg in msgs {
-        println!("{:?}", msg.unwrap());
+        let msg = msg.unwrap();
+        let msg: escargot::format::Message = msg.convert().unwrap();
+        println!("{:#?}", msg);
     }
 }
 
@@ -51,7 +57,9 @@ fn test_error() {
     assert!(1 < msgs.len());
     let error_idx = msgs.len() - 1;
     for msg in &msgs[0..error_idx] {
-        println!("{:?}", msg);
+        let msg = msg.as_ref().unwrap();
+        let msg: escargot::format::Message = msg.convert().unwrap();
+        println!("{:#?}", msg);
     }
     assert!(msgs[error_idx].is_err());
     println!("```{}```", msgs[error_idx].as_ref().err().unwrap());
