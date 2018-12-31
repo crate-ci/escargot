@@ -75,7 +75,9 @@ impl MessageIter {
 
 impl Drop for MessageIter {
     fn drop(&mut self) {
-        let _ = self.0.child.wait();
+        if !self.0.done {
+            let _ = self.0.child.wait();
+        }
     }
 }
 
