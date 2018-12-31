@@ -4,7 +4,6 @@ rust:
 - 1.31.0  # oldest supported version
 - stable
 - beta
-- nightly
 matrix:
   include:
   - env: RUSTFMT
