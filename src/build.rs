@@ -6,6 +6,8 @@ use cargo::CURRENT_TARGET;
 use error::*;
 use msg::*;
 use run::CargoRun;
+#[cfg(feature = "test_unstable")]
+use test::CargoTest;
 
 /// The `build` subcommand.
 ///
@@ -95,6 +97,34 @@ impl CargoBuild {
         self.arg("--example").arg(name)
     }
 
+    /// Build all tests
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// escargot::CargoBuild::new()
+    ///     .tests()
+    ///     .exec()
+    ///     .unwrap();
+    /// ```
+    pub fn tests(self) -> Self {
+        self.arg("--tests")
+    }
+
+    /// Build only `name` test.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// escargot::CargoBuild::new()
+    ///     .test("build")
+    ///     .exec()
+    ///     .unwrap();
+    /// ```
+    pub fn test<S: AsRef<ffi::OsStr>>(self, name: S) -> Self {
+        self.arg("--test").arg(name)
+    }
+
     /// Path to Cargo.toml
     pub fn manifest_path<S: AsRef<ffi::OsStr>>(self, path: S) -> Self {
         self.arg("--manifest-path").arg(path)
@@ -175,7 +205,28 @@ impl CargoBuild {
     /// ```
     pub fn run(self) -> CargoResult<CargoRun> {
         let msgs = MessageIter::from_command(self.cmd)?;
-        CargoRun::with_messages(msgs, self.bin, self.example)
+        CargoRun::from_message(msgs, self.bin, self.example)
+    }
+
+    /// Provide a proxy for running the built target.
+    ///
+    /// Required feature: `test_unstable` since the format parsed is unstable.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// let run = escargot::CargoBuild::new()
+    ///     .test("build")
+    ///     .current_release()
+    ///     .current_target()
+    ///     .run_tests().unwrap()
+    ///     .next().unwrap().unwrap();
+    /// println!("artifact={}", run.path().display());
+    /// ```
+    #[cfg(feature = "test_unstable")]
+    pub fn run_tests(self) -> CargoResult<impl Iterator<Item = Result<CargoTest, CargoError>>> {
+        let msgs = MessageIter::from_command(self.cmd)?;
+        Ok(CargoTest::with_messages(msgs))
     }
 }
 

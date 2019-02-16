@@ -18,9 +18,14 @@ lazy_static = "1.1.0"
 log = "0.4"
 
 [features]
+# Programmatic use of `cargo test` (relies on an unstable CLI API).
+test_unstable = []
 # This mostly exists for testing, to catch new fields and enum variants being
 # added (for the cases we actually cover).
 strict_unstable = []
 # This is for when using `escargot` in tests and you want logged output to
 # instead be printed because no logger is configured.
 print = []
+
+[package.metadata.docs.rs]
+features = [ "test_unstable" ]

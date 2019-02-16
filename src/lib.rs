@@ -57,6 +57,10 @@ mod msg;
 pub use msg::*;
 mod run;
 pub use run::*;
+#[cfg(feature = "test_unstable")]
+mod test;
+#[cfg(feature = "test_unstable")]
+pub use test::*;
 
 pub mod error;
 pub mod format;

@@ -5,6 +5,9 @@ use std::path;
 
 pub mod diagnostic;
 
+#[cfg(feature = "test_unstable")]
+pub mod test;
+
 type CowPath<'a> = borrow::Cow<'a, path::Path>;
 type CowStr<'a> = borrow::Cow<'a, str>;
 

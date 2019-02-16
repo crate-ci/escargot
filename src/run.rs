@@ -35,7 +35,7 @@ pub struct CargoRun {
 }
 
 impl CargoRun {
-    pub(crate) fn with_messages(
+    pub(crate) fn from_message(
         msgs: MessageIter,
         is_bin: bool,
         is_example: bool,
@@ -89,7 +89,7 @@ impl CargoRun {
     }
 }
 
-fn extract_filenames<'a>(msg: &'a format::Message, desired_kind: &str) -> Option<&'a path::Path> {
+fn extract_filename<'a>(msg: &'a format::Message, desired_kind: &str) -> Option<&'a path::Path> {
     match msg {
         format::Message::CompilerArtifact(art) => {
             if art.target.crate_types == ["bin"] && art.target.kind == [desired_kind] {
@@ -168,16 +168,35 @@ fn log_message(msg: &format::Message) {
     }
 }
 
-fn extract_binary_path(msgs: MessageIter, kind: &str) -> Result<path::PathBuf, CargoError> {
-    let mut bins = Vec::with_capacity(1);
-    for msg in msgs {
-        let msg = msg?;
-        let msg = msg.decode()?;
-        log_message(&msg);
-        if let Some(path) = extract_filenames(&msg, kind) {
-            bins.push(path.to_path_buf());
-        }
+fn transpose<T, E>(r: Result<Option<T>, E>) -> Option<Result<T, E>> {
+    match r {
+        Ok(Some(x)) => Some(Ok(x)),
+        Ok(None) => None,
+        Err(e) => Some(Err(e)),
     }
+}
+
+pub(crate) fn extract_binary_paths(
+    msgs: MessageIter,
+    kind: &'static str,
+) -> impl Iterator<Item = Result<path::PathBuf, CargoError>> {
+    msgs.filter_map(move |m| {
+        let m = m.and_then(|m| {
+            let m = m.decode()?;
+            log_message(&m);
+            let p = extract_filename(&m, kind).map(|p| p.to_path_buf());
+            Ok(p)
+        });
+        transpose(m)
+    })
+}
+
+pub(crate) fn extract_binary_path(
+    msgs: MessageIter,
+    kind: &'static str,
+) -> Result<path::PathBuf, CargoError> {
+    let bins: Result<Vec<_>, CargoError> = extract_binary_paths(msgs, kind).collect();
+    let bins = bins?;
     if bins.is_empty() {
         return Err(CargoError::new(ErrorKind::CommandFailed).set_context("No binaries in crate"));
     } else if bins.len() != 1 {
