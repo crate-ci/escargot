@@ -38,7 +38,7 @@ pub struct CargoTest {
 
 impl CargoTest {
     pub(crate) fn with_messages(
-        msgs: MessageIter,
+        msgs: CommandMessages,
     ) -> impl Iterator<Item = Result<Self, CargoError>> {
         run::extract_binary_paths(msgs, "test").map(|p| p.map(|p| Self { bin_path: p }))
     }
@@ -82,7 +82,7 @@ impl CargoTest {
     }
 
     /// Run the configured test, returning test events.
-    pub fn exec(&self) -> CargoResult<MessageIter> {
-        MessageIter::from_command(self.command())
+    pub fn exec(&self) -> CargoResult<CommandMessages> {
+        CommandMessages::with_command(self.command())
     }
 }

@@ -36,7 +36,7 @@ pub struct CargoRun {
 
 impl CargoRun {
     pub(crate) fn from_message(
-        msgs: MessageIter,
+        msgs: CommandMessages,
         is_bin: bool,
         is_example: bool,
     ) -> CargoResult<Self> {
@@ -177,7 +177,7 @@ fn transpose<T, E>(r: Result<Option<T>, E>) -> Option<Result<T, E>> {
 }
 
 pub(crate) fn extract_binary_paths(
-    msgs: MessageIter,
+    msgs: CommandMessages,
     kind: &'static str,
 ) -> impl Iterator<Item = Result<path::PathBuf, CargoError>> {
     msgs.filter_map(move |m| {
@@ -192,7 +192,7 @@ pub(crate) fn extract_binary_paths(
 }
 
 pub(crate) fn extract_binary_path(
-    msgs: MessageIter,
+    msgs: CommandMessages,
     kind: &'static str,
 ) -> Result<path::PathBuf, CargoError> {
     let bins: Result<Vec<_>, CargoError> = extract_binary_paths(msgs, kind).collect();
