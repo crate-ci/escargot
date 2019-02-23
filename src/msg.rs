@@ -21,7 +21,7 @@ struct InnerCommandMessages {
 
 impl CommandMessages {
     /// Run the command, allowing iteration over ndjson messages.
-    pub(crate) fn with_command(mut cmd: process::Command) -> CargoResult<Self> {
+    pub fn with_command(mut cmd: process::Command) -> CargoResult<Self> {
         let mut child = cmd
             .stdout(process::Stdio::piped())
             .stderr(process::Stdio::piped())
