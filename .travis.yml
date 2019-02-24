@@ -35,7 +35,7 @@ script:
 - cargo test  --verbose --features "print"
 - cargo test  --verbose --features "test_unstable"
 # Audit `format` for new features.
-- cargo test  --verbose --features "strict_unstable,test_unstable"
+- cargo test  --verbose --features "strict_unstable,cargo_unstable,test_unstable"
 
 branches:
   only:

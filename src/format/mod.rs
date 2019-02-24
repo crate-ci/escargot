@@ -49,6 +49,10 @@ pub struct Artifact<'a> {
     /// The full paths to the generated artifacts
     #[serde(borrow)]
     pub filenames: Vec<CowPath<'a>>,
+    /// The full paths to the generated artifacts
+    #[cfg(feature = "cargo_unstable")]
+    #[serde(borrow)]
+    pub executable: Option<CowPath<'a>>,
     /// If true, then the files were already generated
     pub fresh: bool,
     #[doc(hidden)]

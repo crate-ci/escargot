@@ -18,6 +18,8 @@ lazy_static = "1.1.0"
 log = "0.4"
 
 [features]
+# Upcoming features in cargo.
+cargo_unstable = []
 # Programmatic use of `cargo test` (relies on an unstable CLI API).
 test_unstable = []
 # This mostly exists for testing, to catch new fields and enum variants being
@@ -28,4 +30,4 @@ strict_unstable = []
 print = []
 
 [package.metadata.docs.rs]
-features = [ "test_unstable" ]
+features = [ "cargo_unstable", "test_unstable" ]
