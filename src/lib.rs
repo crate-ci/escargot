@@ -29,10 +29,16 @@
 //! # Example
 //!
 //! ```rust
+//! extern crate escargot;
+//! extern crate assert_fs;
+//!
+//! let temp = assert_fs::TempDir::new().unwrap();
 //! escargot::CargoBuild::new()
-//!     .bin("bin_fixture")
+//!     .bin("bin")
 //!     .current_release()
 //!     .current_target()
+//!     .manifest_path("tests/fixtures/bin/Cargo.toml")
+//!     .target_dir(temp.path())
 //!     .exec()
 //!     .unwrap();
 //! ```

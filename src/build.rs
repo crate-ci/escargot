@@ -14,10 +14,16 @@ use test::CargoTest;
 /// # Example
 ///
 /// ```rust
+/// extern crate escargot;
+/// extern crate assert_fs;
+///
+/// let temp = assert_fs::TempDir::new().unwrap();
 /// escargot::CargoBuild::new()
-///     .bin("bin_fixture")
+///     .bin("bin")
 ///     .current_release()
 ///     .current_target()
+///     .manifest_path("tests/fixtures/bin/Cargo.toml")
+///     .target_dir(temp.path())
 ///     .exec()
 ///     .unwrap();
 /// ```
@@ -35,7 +41,14 @@ impl CargoBuild {
     /// # Example
     ///
     /// ```rust
+    /// extern crate escargot;
+    /// extern crate assert_fs;
+    ///
+    /// let temp = assert_fs::TempDir::new().unwrap();
     /// escargot::CargoBuild::new()
+    ///     .bin("bin")
+    ///     .manifest_path("tests/fixtures/bin/Cargo.toml")
+    ///     .target_dir(temp.path())
     ///     .exec()
     ///     .unwrap();
     /// ```
@@ -58,9 +71,15 @@ impl CargoBuild {
     /// # Example
     ///
     /// ```rust
+    /// extern crate escargot;
+    /// extern crate assert_fs;
+    ///
+    /// let temp = assert_fs::TempDir::new().unwrap();
     /// escargot::CargoBuild::new()
-    ///     .package("escargot")
-    ///     .bin("bin_fixture")
+    ///     .package("bin")
+    ///     .bin("bin")
+    ///     .manifest_path("tests/fixtures/bin/Cargo.toml")
+    ///     .target_dir(temp.path())
     ///     .exec()
     ///     .unwrap();
     /// ```
@@ -72,8 +91,14 @@ impl CargoBuild {
     /// # Example
     ///
     /// ```rust
+    /// extern crate escargot;
+    /// extern crate assert_fs;
+    ///
+    /// let temp = assert_fs::TempDir::new().unwrap();
     /// escargot::CargoBuild::new()
-    ///     .bin("bin_fixture")
+    ///     .bin("bin")
+    ///     .manifest_path("tests/fixtures/bin/Cargo.toml")
+    ///     .target_dir(temp.path())
     ///     .exec()
     ///     .unwrap();
     /// ```
@@ -87,8 +112,14 @@ impl CargoBuild {
     /// # Example
     ///
     /// ```rust
+    /// extern crate escargot;
+    /// extern crate assert_fs;
+    ///
+    /// let temp = assert_fs::TempDir::new().unwrap();
     /// escargot::CargoBuild::new()
     ///     .example("example_fixture")
+    ///     .manifest_path("tests/fixtures/example/Cargo.toml")
+    ///     .target_dir(temp.path())
     ///     .exec()
     ///     .unwrap();
     /// ```
@@ -102,8 +133,14 @@ impl CargoBuild {
     /// # Example
     ///
     /// ```rust
+    /// extern crate escargot;
+    /// extern crate assert_fs;
+    ///
+    /// let temp = assert_fs::TempDir::new().unwrap();
     /// escargot::CargoBuild::new()
     ///     .tests()
+    ///     .manifest_path("tests/fixtures/test/Cargo.toml")
+    ///     .target_dir(temp.path())
     ///     .exec()
     ///     .unwrap();
     /// ```
@@ -116,8 +153,14 @@ impl CargoBuild {
     /// # Example
     ///
     /// ```rust
+    /// extern crate escargot;
+    /// extern crate assert_fs;
+    ///
+    /// let temp = assert_fs::TempDir::new().unwrap();
     /// escargot::CargoBuild::new()
-    ///     .test("build")
+    ///     .test("test")
+    ///     .manifest_path("tests/fixtures/test/Cargo.toml")
+    ///     .target_dir(temp.path())
     ///     .exec()
     ///     .unwrap();
     /// ```
@@ -195,10 +238,16 @@ impl CargoBuild {
     /// # Example
     ///
     /// ```rust
+    /// extern crate escargot;
+    /// extern crate assert_fs;
+    ///
+    /// let temp = assert_fs::TempDir::new().unwrap();
     /// let run = escargot::CargoBuild::new()
-    ///     .bin("bin_fixture")
+    ///     .bin("bin")
     ///     .current_release()
     ///     .current_target()
+    ///     .manifest_path("tests/fixtures/bin/Cargo.toml")
+    ///     .target_dir(temp.path())
     ///     .run()
     ///     .unwrap();
     /// println!("artifact={}", run.path().display());
@@ -215,10 +264,16 @@ impl CargoBuild {
     /// # Example
     ///
     /// ```rust
+    /// extern crate escargot;
+    /// extern crate assert_fs;
+    ///
+    /// let temp = assert_fs::TempDir::new().unwrap();
     /// let run = escargot::CargoBuild::new()
-    ///     .test("build")
+    ///     .test("test")
     ///     .current_release()
     ///     .current_target()
+    ///     .manifest_path("tests/fixtures/test/Cargo.toml")
+    ///     .target_dir(temp.path())
     ///     .run_tests().unwrap()
     ///     .next().unwrap().unwrap();
     /// println!("artifact={}", run.path().display());

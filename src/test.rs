@@ -22,10 +22,14 @@ use run;
 /// # Example
 ///
 /// ```rust
+/// extern crate escargot;
+/// extern crate assert_fs;
+///
+/// let temp = assert_fs::TempDir::new().unwrap();
 /// let run = escargot::CargoBuild::new()
-///     .test("build")
-///     .current_release()
-///     .current_target()
+///     .test("test")
+///     .manifest_path("tests/fixtures/test/Cargo.toml")
+///     .target_dir(temp.path())
 ///     .run_tests().unwrap()
 ///     .next().unwrap().unwrap();
 /// println!("artifact={}", run.path().display());
@@ -52,16 +56,6 @@ impl CargoTest {
     /// ```rust
     /// let run = escargot::CargoBuild::new()
     ///     .bin("bin_fixture")
-    ///     .current_release()
-    ///     .current_target()
-    ///     .run()
-    ///     .unwrap();
-    /// println!("artifact={}", run.path().display());
-    /// ```
-    /// or
-    /// ```rust
-    /// let run = escargot::CargoBuild::new()
-    ///     .example("example_fixture")
     ///     .current_release()
     ///     .current_target()
     ///     .run()

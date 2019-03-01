@@ -20,10 +20,16 @@ use msg::*;
 /// # Example
 ///
 /// ```rust
+/// extern crate escargot;
+/// extern crate assert_fs;
+///
+/// let temp = assert_fs::TempDir::new().unwrap();
 /// let run = escargot::CargoBuild::new()
-///     .bin("bin_fixture")
+///     .bin("bin")
 ///     .current_release()
 ///     .current_target()
+///     .manifest_path("tests/fixtures/bin/Cargo.toml")
+///     .target_dir(temp.path())
 ///     .run()
 ///     .unwrap();
 /// println!("artifact={}", run.path().display());
@@ -59,20 +65,32 @@ impl CargoRun {
     /// # Example
     ///
     /// ```rust
+    /// extern crate escargot;
+    /// extern crate assert_fs;
+    ///
+    /// let temp = assert_fs::TempDir::new().unwrap();
     /// let run = escargot::CargoBuild::new()
-    ///     .bin("bin_fixture")
+    ///     .bin("bin")
     ///     .current_release()
     ///     .current_target()
+    ///     .manifest_path("tests/fixtures/bin/Cargo.toml")
+    ///     .target_dir(temp.path())
     ///     .run()
     ///     .unwrap();
     /// println!("artifact={}", run.path().display());
     /// ```
     /// or
     /// ```rust
+    /// extern crate escargot;
+    /// extern crate assert_fs;
+    ///
+    /// let temp = assert_fs::TempDir::new().unwrap();
     /// let run = escargot::CargoBuild::new()
     ///     .example("example_fixture")
     ///     .current_release()
     ///     .current_target()
+    ///     .manifest_path("tests/fixtures/example/Cargo.toml")
+    ///     .target_dir(temp.path())
     ///     .run()
     ///     .unwrap();
     /// println!("artifact={}", run.path().display());
