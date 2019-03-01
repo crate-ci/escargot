@@ -1,10 +1,14 @@
+extern crate assert_fs;
 extern crate escargot;
 
 fn test_fixture(name: &str) {
+    let temp = assert_fs::TempDir::new().unwrap();
+
     let cmd = escargot::CargoBuild::new()
         .manifest_path(&format!("tests/fixtures/{}/Cargo.toml", name))
         .current_release()
         .current_target()
+        .target_dir(temp.path())
         .run()
         .unwrap();
     let output = cmd.command().output().unwrap();
