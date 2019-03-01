@@ -6,16 +6,24 @@ use cargo::CURRENT_TARGET;
 use error::*;
 use msg::*;
 use run::CargoRun;
+#[cfg(feature = "test_unstable")]
+use test::CargoTest;
 
 /// The `build` subcommand.
 ///
 /// # Example
 ///
 /// ```rust
+/// extern crate escargot;
+/// extern crate assert_fs;
+///
+/// let temp = assert_fs::TempDir::new().unwrap();
 /// escargot::CargoBuild::new()
-///     .bin("bin_fixture")
+///     .bin("bin")
 ///     .current_release()
 ///     .current_target()
+///     .manifest_path("tests/fixtures/bin/Cargo.toml")
+///     .target_dir(temp.path())
 ///     .exec()
 ///     .unwrap();
 /// ```
@@ -33,7 +41,14 @@ impl CargoBuild {
     /// # Example
     ///
     /// ```rust
+    /// extern crate escargot;
+    /// extern crate assert_fs;
+    ///
+    /// let temp = assert_fs::TempDir::new().unwrap();
     /// escargot::CargoBuild::new()
+    ///     .bin("bin")
+    ///     .manifest_path("tests/fixtures/bin/Cargo.toml")
+    ///     .target_dir(temp.path())
     ///     .exec()
     ///     .unwrap();
     /// ```
@@ -56,9 +71,15 @@ impl CargoBuild {
     /// # Example
     ///
     /// ```rust
+    /// extern crate escargot;
+    /// extern crate assert_fs;
+    ///
+    /// let temp = assert_fs::TempDir::new().unwrap();
     /// escargot::CargoBuild::new()
-    ///     .package("escargot")
-    ///     .bin("bin_fixture")
+    ///     .package("bin")
+    ///     .bin("bin")
+    ///     .manifest_path("tests/fixtures/bin/Cargo.toml")
+    ///     .target_dir(temp.path())
     ///     .exec()
     ///     .unwrap();
     /// ```
@@ -70,8 +91,14 @@ impl CargoBuild {
     /// # Example
     ///
     /// ```rust
+    /// extern crate escargot;
+    /// extern crate assert_fs;
+    ///
+    /// let temp = assert_fs::TempDir::new().unwrap();
     /// escargot::CargoBuild::new()
-    ///     .bin("bin_fixture")
+    ///     .bin("bin")
+    ///     .manifest_path("tests/fixtures/bin/Cargo.toml")
+    ///     .target_dir(temp.path())
     ///     .exec()
     ///     .unwrap();
     /// ```
@@ -85,14 +112,60 @@ impl CargoBuild {
     /// # Example
     ///
     /// ```rust
+    /// extern crate escargot;
+    /// extern crate assert_fs;
+    ///
+    /// let temp = assert_fs::TempDir::new().unwrap();
     /// escargot::CargoBuild::new()
     ///     .example("example_fixture")
+    ///     .manifest_path("tests/fixtures/example/Cargo.toml")
+    ///     .target_dir(temp.path())
     ///     .exec()
     ///     .unwrap();
     /// ```
     pub fn example<S: AsRef<ffi::OsStr>>(mut self, name: S) -> Self {
         self.example = true;
         self.arg("--example").arg(name)
+    }
+
+    /// Build all tests
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// extern crate escargot;
+    /// extern crate assert_fs;
+    ///
+    /// let temp = assert_fs::TempDir::new().unwrap();
+    /// escargot::CargoBuild::new()
+    ///     .tests()
+    ///     .manifest_path("tests/fixtures/test/Cargo.toml")
+    ///     .target_dir(temp.path())
+    ///     .exec()
+    ///     .unwrap();
+    /// ```
+    pub fn tests(self) -> Self {
+        self.arg("--tests")
+    }
+
+    /// Build only `name` test.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// extern crate escargot;
+    /// extern crate assert_fs;
+    ///
+    /// let temp = assert_fs::TempDir::new().unwrap();
+    /// escargot::CargoBuild::new()
+    ///     .test("test")
+    ///     .manifest_path("tests/fixtures/test/Cargo.toml")
+    ///     .target_dir(temp.path())
+    ///     .exec()
+    ///     .unwrap();
+    /// ```
+    pub fn test<S: AsRef<ffi::OsStr>>(self, name: S) -> Self {
+        self.arg("--test").arg(name)
     }
 
     /// Path to Cargo.toml
@@ -156,8 +229,8 @@ impl CargoBuild {
     }
 
     /// Build the configured target, returning compiler messages.
-    pub fn exec(self) -> CargoResult<MessageIter> {
-        MessageIter::from_command(self.cmd)
+    pub fn exec(self) -> CargoResult<CommandMessages> {
+        CommandMessages::with_command(self.cmd)
     }
 
     /// Provide a proxy for running the built target.
@@ -165,17 +238,50 @@ impl CargoBuild {
     /// # Example
     ///
     /// ```rust
+    /// extern crate escargot;
+    /// extern crate assert_fs;
+    ///
+    /// let temp = assert_fs::TempDir::new().unwrap();
     /// let run = escargot::CargoBuild::new()
-    ///     .bin("bin_fixture")
+    ///     .bin("bin")
     ///     .current_release()
     ///     .current_target()
+    ///     .manifest_path("tests/fixtures/bin/Cargo.toml")
+    ///     .target_dir(temp.path())
     ///     .run()
     ///     .unwrap();
     /// println!("artifact={}", run.path().display());
     /// ```
     pub fn run(self) -> CargoResult<CargoRun> {
-        let msgs = MessageIter::from_command(self.cmd)?;
-        CargoRun::with_messages(msgs, self.bin, self.example)
+        let msgs = CommandMessages::with_command(self.cmd)?;
+        CargoRun::from_message(msgs, self.bin, self.example)
+    }
+
+    /// Provide a proxy for running the built target.
+    ///
+    /// Required feature: `test_unstable` since the format parsed is unstable.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// extern crate escargot;
+    /// extern crate assert_fs;
+    ///
+    /// let temp = assert_fs::TempDir::new().unwrap();
+    /// let run = escargot::CargoBuild::new()
+    ///     .test("test")
+    ///     .current_release()
+    ///     .current_target()
+    ///     .manifest_path("tests/fixtures/test/Cargo.toml")
+    ///     .target_dir(temp.path())
+    ///     .run_tests().unwrap()
+    ///     .next().unwrap().unwrap();
+    /// println!("artifact={}", run.path().display());
+    /// ```
+    #[cfg(feature = "test_unstable")]
+    pub fn run_tests(self) -> CargoResult<impl Iterator<Item = Result<CargoTest, CargoError>>> {
+        let msgs = CommandMessages::with_command(self.cmd)?;
+        Ok(CargoTest::with_messages(msgs))
     }
 }
 

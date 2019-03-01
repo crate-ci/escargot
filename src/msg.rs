@@ -10,17 +10,18 @@ use error::*;
 use format;
 
 /// Messages returned from a cargo sub-command.
-pub struct MessageIter(InnerMessageIter);
+pub struct CommandMessages(InnerCommandMessages);
 
-struct InnerMessageIter {
+struct InnerCommandMessages {
     done: bool,
     child: process::Child,
     stdout: io::BufReader<process::ChildStdout>,
     stderr: io::BufReader<process::ChildStderr>,
 }
 
-impl MessageIter {
-    pub(crate) fn from_command(mut cmd: process::Command) -> CargoResult<Self> {
+impl CommandMessages {
+    /// Run the command, allowing iteration over ndjson messages.
+    pub fn with_command(mut cmd: process::Command) -> CargoResult<Self> {
         let mut child = cmd
             .stdout(process::Stdio::piped())
             .stderr(process::Stdio::piped())
@@ -30,13 +31,13 @@ impl MessageIter {
         let stdout = io::BufReader::new(stdout);
         let stderr = child.stderr.take().expect("piped above");
         let stderr = io::BufReader::new(stderr);
-        let msgs = InnerMessageIter {
+        let msgs = InnerCommandMessages {
             done: false,
             child,
             stdout,
             stderr,
         };
-        Ok(MessageIter(msgs))
+        Ok(CommandMessages(msgs))
     }
 
     #[inline]
@@ -74,7 +75,7 @@ impl MessageIter {
     }
 }
 
-impl Drop for MessageIter {
+impl Drop for CommandMessages {
     fn drop(&mut self) {
         if !self.0.done {
             let _ = self.0.child.wait();
@@ -82,7 +83,7 @@ impl Drop for MessageIter {
     }
 }
 
-impl Iterator for MessageIter {
+impl Iterator for CommandMessages {
     type Item = CargoResult<Message>;
 
     #[inline]
