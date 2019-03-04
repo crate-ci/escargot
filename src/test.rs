@@ -71,7 +71,7 @@ impl CargoTest {
     /// Run the build artifact.
     pub fn command(&self) -> process::Command {
         let mut cmd = process::Command::new(self.path());
-        cmd.arg("-Z unstable-options").arg("--format json");
+        cmd.arg("-Z").arg("unstable-options").arg("--format=json");
         cmd
     }
 
