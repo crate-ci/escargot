@@ -2,8 +2,8 @@ use std::path;
 use std::process;
 
 use error::*;
+use format;
 use msg::*;
-use run;
 
 /// The `test` subcommand (emulated).
 ///
@@ -44,7 +44,7 @@ impl CargoTest {
     pub(crate) fn with_messages(
         msgs: CommandMessages,
     ) -> impl Iterator<Item = Result<Self, CargoError>> {
-        run::extract_binary_paths(msgs, "test").map(|p| p.map(|p| Self { bin_path: p }))
+        extract_binary_paths(msgs).map(|p| p.map(|p| Self { bin_path: p }))
     }
 
     /// Path to the specified binary.
@@ -54,13 +54,20 @@ impl CargoTest {
     /// # Example
     ///
     /// ```rust
-    /// let run = escargot::CargoBuild::new()
-    ///     .bin("bin_fixture")
+    /// extern crate escargot;
+    /// extern crate assert_fs;
+    ///
+    /// let temp = assert_fs::TempDir::new().unwrap();
+    /// let run: Vec<_> = escargot::CargoBuild::new()
+    ///     .tests()
     ///     .current_release()
     ///     .current_target()
-    ///     .run()
-    ///     .unwrap();
-    /// println!("artifact={}", run.path().display());
+    ///     .manifest_path("tests/fixtures/test/Cargo.toml")
+    ///     .target_dir(temp.path())
+    ///     .run_tests()
+    ///     .unwrap()
+    ///     .collect();
+    /// assert_eq!(run.len(), 3);
     /// ```
     ///
     /// [`Command`]: https://doc.rust-lang.org/std/process/struct.Command.html
@@ -79,4 +86,39 @@ impl CargoTest {
     pub fn exec(&self) -> CargoResult<CommandMessages> {
         CommandMessages::with_command(self.command())
     }
+}
+
+fn extract_bin<'a>(msg: &'a format::Message) -> Option<&'a path::Path> {
+    match msg {
+        format::Message::CompilerArtifact(art) => {
+            if art.profile.test {
+                Some(art.filenames.iter().next().expect("files must exist"))
+            } else {
+                None
+            }
+        }
+        _ => None,
+    }
+}
+
+fn transpose<T, E>(r: Result<Option<T>, E>) -> Option<Result<T, E>> {
+    match r {
+        Ok(Some(x)) => Some(Ok(x)),
+        Ok(None) => None,
+        Err(e) => Some(Err(e)),
+    }
+}
+
+fn extract_binary_paths(
+    msgs: CommandMessages,
+) -> impl Iterator<Item = Result<path::PathBuf, CargoError>> {
+    msgs.filter_map(move |m| {
+        let m = m.and_then(|m| {
+            let m = m.decode()?;
+            format::log_message(&m);
+            let p = extract_bin(&m).map(|p| p.to_path_buf());
+            Ok(p)
+        });
+        transpose(m)
+    })
 }

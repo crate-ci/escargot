@@ -172,3 +172,69 @@ pub struct BuildScript<'a> {
     #[serde(skip)]
     __do_not_match_exhaustively: (),
 }
+
+#[cfg(not(feature = "print"))]
+pub(crate) fn log_message(msg: &Message) {
+    match msg {
+        Message::CompilerArtifact(ref art) => {
+            trace!("Building {:#?}", art.package_id,);
+        }
+        Message::CompilerMessage(ref comp) => {
+            let content = comp
+                .message
+                .rendered
+                .as_ref()
+                .map(|s| s.as_ref())
+                .unwrap_or(comp.message.message.as_ref());
+            match comp.message.level {
+                diagnostic::DiagnosticLevel::Ice => error!("{}", content),
+                diagnostic::DiagnosticLevel::Error => error!("{}", content),
+                diagnostic::DiagnosticLevel::Warning => warn!("{}", content),
+                diagnostic::DiagnosticLevel::Note => info!("{}", content),
+                diagnostic::DiagnosticLevel::Help => info!("{}", content),
+                #[cfg(not(feature = "strict_unstable"))]
+                _ => warn!("Unknown message: {:#?}", msg),
+            }
+        }
+        Message::BuildScriptExecuted(ref script) => {
+            trace!("Ran script from {:#?}", script.package_id);
+        }
+        #[cfg(not(feature = "strict_unstable"))]
+        _ => {
+            warn!("Unknown message: {:#?}", msg);
+        }
+    }
+}
+
+#[cfg(feature = "print")]
+pub(crate) fn log_message(msg: &Message) {
+    match msg {
+        Message::CompilerArtifact(ref art) => {
+            println!("Building {:#?}", art.package_id,);
+        }
+        Message::CompilerMessage(ref comp) => {
+            let content = comp
+                .message
+                .rendered
+                .as_ref()
+                .map(|s| s.as_ref())
+                .unwrap_or(comp.message.message.as_ref());
+            match comp.message.level {
+                diagnostic::DiagnosticLevel::Ice => println!("{}", content),
+                diagnostic::DiagnosticLevel::Error => println!("{}", content),
+                diagnostic::DiagnosticLevel::Warning => println!("{}", content),
+                diagnostic::DiagnosticLevel::Note => println!("{}", content),
+                diagnostic::DiagnosticLevel::Help => println!("{}", content),
+                #[cfg(not(feature = "strict_unstable"))]
+                _ => warn!("Unknown message: {:#?}", msg),
+            }
+        }
+        Message::BuildScriptExecuted(ref script) => {
+            println!("Ran script from {:#?}", script.package_id);
+        }
+        #[cfg(not(feature = "strict_unstable"))]
+        _ => {
+            println!("Unknown message: {:#?}", msg);
+        }
+    }
+}
