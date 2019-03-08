@@ -1,3 +1,10 @@
+extern crate test_fixture;
+
+fn main() {
+    println!("answer = {}", test_fixture::add(40, 2));
+    println!("answer = {}", add(40, 2));
+}
+
 /// ```rust
 /// assert_eq!(test_fixture::add(1, 2), 3);
 /// ```

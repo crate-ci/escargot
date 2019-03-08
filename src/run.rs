@@ -107,82 +107,19 @@ impl CargoRun {
     }
 }
 
-fn extract_filename<'a>(msg: &'a format::Message, desired_kind: &str) -> Option<&'a path::Path> {
+fn extract_bin<'a>(msg: &'a format::Message, desired_kind: &str) -> Option<&'a path::Path> {
     match msg {
         format::Message::CompilerArtifact(art) => {
-            if art.target.crate_types == ["bin"] && art.target.kind == [desired_kind] {
+            if !art.profile.test
+                && art.target.crate_types == ["bin"]
+                && art.target.kind == [desired_kind]
+            {
                 Some(art.filenames.iter().next().expect("files must exist"))
             } else {
                 None
             }
         }
         _ => None,
-    }
-}
-
-#[cfg(not(feature = "print"))]
-fn log_message(msg: &format::Message) {
-    match msg {
-        format::Message::CompilerArtifact(ref art) => {
-            trace!("Building {:#?}", art.package_id,);
-        }
-        format::Message::CompilerMessage(ref comp) => {
-            let content = comp
-                .message
-                .rendered
-                .as_ref()
-                .map(|s| s.as_ref())
-                .unwrap_or(comp.message.message.as_ref());
-            match comp.message.level {
-                format::diagnostic::DiagnosticLevel::Ice => error!("{}", content),
-                format::diagnostic::DiagnosticLevel::Error => error!("{}", content),
-                format::diagnostic::DiagnosticLevel::Warning => warn!("{}", content),
-                format::diagnostic::DiagnosticLevel::Note => info!("{}", content),
-                format::diagnostic::DiagnosticLevel::Help => info!("{}", content),
-                #[cfg(not(feature = "strict_unstable"))]
-                _ => warn!("Unknown message: {:#?}", msg),
-            }
-        }
-        format::Message::BuildScriptExecuted(ref script) => {
-            trace!("Ran script from {:#?}", script.package_id);
-        }
-        #[cfg(not(feature = "strict_unstable"))]
-        _ => {
-            warn!("Unknown message: {:#?}", msg);
-        }
-    }
-}
-
-#[cfg(feature = "print")]
-fn log_message(msg: &format::Message) {
-    match msg {
-        format::Message::CompilerArtifact(ref art) => {
-            println!("Building {:#?}", art.package_id,);
-        }
-        format::Message::CompilerMessage(ref comp) => {
-            let content = comp
-                .message
-                .rendered
-                .as_ref()
-                .map(|s| s.as_ref())
-                .unwrap_or(comp.message.message.as_ref());
-            match comp.message.level {
-                format::diagnostic::DiagnosticLevel::Ice => println!("{}", content),
-                format::diagnostic::DiagnosticLevel::Error => println!("{}", content),
-                format::diagnostic::DiagnosticLevel::Warning => println!("{}", content),
-                format::diagnostic::DiagnosticLevel::Note => println!("{}", content),
-                format::diagnostic::DiagnosticLevel::Help => println!("{}", content),
-                #[cfg(not(feature = "strict_unstable"))]
-                _ => warn!("Unknown message: {:#?}", msg),
-            }
-        }
-        format::Message::BuildScriptExecuted(ref script) => {
-            println!("Ran script from {:#?}", script.package_id);
-        }
-        #[cfg(not(feature = "strict_unstable"))]
-        _ => {
-            println!("Unknown message: {:#?}", msg);
-        }
     }
 }
 
@@ -194,22 +131,22 @@ fn transpose<T, E>(r: Result<Option<T>, E>) -> Option<Result<T, E>> {
     }
 }
 
-pub(crate) fn extract_binary_paths(
+fn extract_binary_paths(
     msgs: CommandMessages,
     kind: &'static str,
 ) -> impl Iterator<Item = Result<path::PathBuf, CargoError>> {
     msgs.filter_map(move |m| {
         let m = m.and_then(|m| {
             let m = m.decode()?;
-            log_message(&m);
-            let p = extract_filename(&m, kind).map(|p| p.to_path_buf());
+            format::log_message(&m);
+            let p = extract_bin(&m, kind).map(|p| p.to_path_buf());
             Ok(p)
         });
         transpose(m)
     })
 }
 
-pub(crate) fn extract_binary_path(
+fn extract_binary_path(
     msgs: CommandMessages,
     kind: &'static str,
 ) -> Result<path::PathBuf, CargoError> {
@@ -218,8 +155,12 @@ pub(crate) fn extract_binary_path(
     if bins.is_empty() {
         return Err(CargoError::new(ErrorKind::CommandFailed).set_context("No binaries in crate"));
     } else if bins.len() != 1 {
-        return Err(CargoError::new(ErrorKind::CommandFailed)
-            .set_context(format!("Ambiguous which binary is intended: {:?}", bins)));
+        return Err(
+            CargoError::new(ErrorKind::CommandFailed).set_context(std::format!(
+                "Ambiguous which binary is intended: {:?}",
+                bins
+            )),
+        );
     }
     Ok(bins.into_iter().next().expect("already validated"))
 }
