@@ -217,7 +217,7 @@ impl CargoBuild {
 
     /// Space-separated list of features to activate
     pub fn features<S: AsRef<ffi::OsStr>>(self, features: S) -> Self {
-        self.arg("-features").arg(features)
+        self.arg("--features").arg(features)
     }
 
     /// Manually pass an argument that is unsupported.
