@@ -6,7 +6,7 @@
 //!
 //! ```toml
 //! [dependencies]
-//! escargot = "0.4"
+//! escargot = "0.5"
 //! ```
 //!
 //! Features:

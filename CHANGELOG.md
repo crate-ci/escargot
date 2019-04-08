@@ -1,3 +1,22 @@
+<a name="0.5.0"></a>
+## 0.5.0 (2019-04-08)
+
+
+#### Features
+
+*   Expose creating CommandMessages ([49d8767e](https://github.com/crate-ci/escargot/commit/49d8767e0122edebd0078e1ea1781a2eaf727ee5))
+* **tests:**  Unstable support for running tests ([31293d79](https://github.com/crate-ci/escargot/commit/31293d796e2587cbc31bfff87af0fa4b22575de0))
+
+#### Breaking Changes
+
+*   Rename MessageIter -> CommandMessages ([f4742d8e](https://github.com/crate-ci/escargot/commit/f4742d8e1eb6b2bc242f24a5f0ceb0f9fb517070), breaks [#](https://github.com/crate-ci/escargot/issues/))
+
+#### Bug Fixes
+
+*   Gracefully handle upcoming cargo features ([a00f2408](https://github.com/crate-ci/escargot/commit/a00f240831ddc71b1846005df4917111e3690a82))
+
+
+
 <a name="0.4.0"></a>
 ## 0.4.0 (2018-12-31)
 
