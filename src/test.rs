@@ -39,6 +39,7 @@ use msg::*;
 pub struct CargoTest {
     bin_path: path::PathBuf,
     kind: String,
+    name: String,
 }
 
 impl CargoTest {
@@ -46,6 +47,35 @@ impl CargoTest {
         msgs: CommandMessages,
     ) -> impl Iterator<Item = Result<Self, CargoError>> {
         extract_binary_paths(msgs)
+    }
+
+    /// The `name` of test
+    ///
+    /// Used to offer filtering or displays.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// extern crate escargot;
+    /// extern crate assert_fs;
+    ///
+    /// let temp = assert_fs::TempDir::new().unwrap();
+    /// let run: Result<Vec<_>, _> = escargot::CargoBuild::new()
+    ///     .tests()
+    ///     .current_release()
+    ///     .current_target()
+    ///     .manifest_path("tests/fixtures/test/Cargo.toml")
+    ///     .target_dir(temp.path())
+    ///     .run_tests()
+    ///     .unwrap()
+    ///     .collect();
+    /// let run = run.unwrap();
+    /// let mut names: Vec<_> = run.iter().map(|r| r.name()).collect();
+    /// names.sort_unstable();
+    /// assert_eq!(names, ["test", "test_fixture", "test_fixture"]);
+    /// ```
+    pub fn name(&self) -> &str {
+        self.name.as_str()
     }
 
     /// The `kind` of test
@@ -136,7 +166,12 @@ fn extract_bin<'a>(msg: &'a format::Message) -> Option<CargoTest> {
                     .expect("kind must exist")
                     .as_ref()
                     .to_owned();
-                Some(CargoTest { bin_path, kind })
+                let name = art.target.name.as_ref().to_owned();
+                Some(CargoTest {
+                    bin_path,
+                    kind,
+                    name,
+                })
             } else {
                 None
             }
