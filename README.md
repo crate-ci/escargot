@@ -2,8 +2,7 @@
 
 > **Cargo API written in Paris**
 
-[![Travis Status](https://travis-ci.org/crate-ci/escargot.svg?branch=master)](https://travis-ci.org/crate-ci/escargot)
-[![Appveyor Status](https://ci.appveyor.com/api/projects/status/ngaynop65qg5sqpq/branch/master?svg=true)](https://ci.appveyor.com/project/epage/escargot/branch/master)
+[![Build Status](https://dev.azure.com/crate-ci/crate-ci/_apis/build/status/escargot?branchName=master)](https://dev.azure.com/crate-ci/crate-ci/_build/latest?definitionId=5&branchName=master)
 [![codecov](https://codecov.io/gh/crate-ci/escargot/branch/master/graph/badge.svg)](https://codecov.io/gh/crate-ci/escargot)
 [![Documentation](https://img.shields.io/badge/docs-master-blue.svg)][Documentation]
 ![License](https://img.shields.io/crates/l/escargot.svg)

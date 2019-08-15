@@ -12,6 +12,7 @@ categories = ["development-tools::build-utils"]
 keywords = ["cargo", "packaging"]
 
 [badges]
+azure-devops = { project = "crate-ci", pipeline = "escargot" }
 codecov = { repository = "crate-ci/escargot" }
 
 [dependencies]
