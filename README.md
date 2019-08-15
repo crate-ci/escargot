@@ -4,6 +4,7 @@
 
 [![Travis Status](https://travis-ci.org/crate-ci/escargot.svg?branch=master)](https://travis-ci.org/crate-ci/escargot)
 [![Appveyor Status](https://ci.appveyor.com/api/projects/status/ngaynop65qg5sqpq/branch/master?svg=true)](https://ci.appveyor.com/project/epage/escargot/branch/master)
+[![codecov](https://codecov.io/gh/crate-ci/escargot/branch/master/graph/badge.svg)](https://codecov.io/gh/crate-ci/escargot)
 [![Documentation](https://img.shields.io/badge/docs-master-blue.svg)][Documentation]
 ![License](https://img.shields.io/crates/l/escargot.svg)
 [![Crates Status](https://img.shields.io/crates/v/escargot.svg)](https://crates.io/crates/escargot)
