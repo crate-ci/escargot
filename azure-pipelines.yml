@@ -1,3 +1,10 @@
+schedules:
+- cron: "5 5 5 * *"
+  displayName: Monthly Build
+  branches:
+    include:
+    - master
+
 stages:
  - template: azure/stages.yml@templates
    parameters:
