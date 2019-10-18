@@ -47,22 +47,15 @@
 
 #[macro_use]
 extern crate serde;
-extern crate serde_json;
-
-#[macro_use]
-extern crate lazy_static;
-
-#[macro_use]
-extern crate log;
 
 mod build;
-pub use build::*;
+pub use crate::build::*;
 mod cargo;
-pub use cargo::*;
+pub use crate::cargo::*;
 mod msg;
-pub use msg::*;
+pub use crate::msg::*;
 mod run;
-pub use run::*;
+pub use crate::run::*;
 #[cfg(feature = "test_unstable")]
 mod test;
 #[cfg(feature = "test_unstable")]

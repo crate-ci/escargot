@@ -174,10 +174,10 @@ pub struct BuildScript<'a> {
 }
 
 #[cfg(not(feature = "print"))]
-pub(crate) fn log_message(msg: &Message) {
+pub(crate) fn log_message(msg: &Message<'_>) {
     match msg {
         Message::CompilerArtifact(ref art) => {
-            trace!("Building {:#?}", art.package_id,);
+            log::trace!("Building {:#?}", art.package_id,);
         }
         Message::CompilerMessage(ref comp) => {
             let content = comp
@@ -187,27 +187,27 @@ pub(crate) fn log_message(msg: &Message) {
                 .map(|s| s.as_ref())
                 .unwrap_or(comp.message.message.as_ref());
             match comp.message.level {
-                diagnostic::DiagnosticLevel::Ice => error!("{}", content),
-                diagnostic::DiagnosticLevel::Error => error!("{}", content),
-                diagnostic::DiagnosticLevel::Warning => warn!("{}", content),
-                diagnostic::DiagnosticLevel::Note => info!("{}", content),
-                diagnostic::DiagnosticLevel::Help => info!("{}", content),
+                diagnostic::DiagnosticLevel::Ice => log::error!("{}", content),
+                diagnostic::DiagnosticLevel::Error => log::error!("{}", content),
+                diagnostic::DiagnosticLevel::Warning => log::warn!("{}", content),
+                diagnostic::DiagnosticLevel::Note => log::info!("{}", content),
+                diagnostic::DiagnosticLevel::Help => log::info!("{}", content),
                 #[cfg(not(feature = "strict_unstable"))]
-                _ => warn!("Unknown message: {:#?}", msg),
+                _ => log::warn!("Unknown message: {:#?}", msg),
             }
         }
         Message::BuildScriptExecuted(ref script) => {
-            trace!("Ran script from {:#?}", script.package_id);
+            log::trace!("Ran script from {:#?}", script.package_id);
         }
         #[cfg(not(feature = "strict_unstable"))]
         _ => {
-            warn!("Unknown message: {:#?}", msg);
+            log::warn!("Unknown message: {:#?}", msg);
         }
     }
 }
 
 #[cfg(feature = "print")]
-pub(crate) fn log_message(msg: &Message) {
+pub(crate) fn log_message(msg: &Message<'_>) {
     match msg {
         Message::CompilerArtifact(ref art) => {
             println!("Building {:#?}", art.package_id,);

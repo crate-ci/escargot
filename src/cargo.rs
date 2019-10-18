@@ -3,14 +3,13 @@ use std::ffi;
 use std::process;
 use std::str;
 
-use build::CargoBuild;
+use crate::build::CargoBuild;
 
 /// The current process' target triplet.
 pub const CURRENT_TARGET: &str = include_str!(concat!(env!("OUT_DIR"), "/current_target.txt"));
 
-lazy_static! {
-    static ref CARBO_BIN: ffi::OsString = env::var_os("CARGO").unwrap_or_else(|| "cargo".into());
-}
+static CARBO_BIN: once_cell::sync::Lazy<ffi::OsString> =
+    once_cell::sync::Lazy::new(|| env::var_os("CARGO").unwrap_or_else(|| "cargo".into()));
 
 /// Top-level command.
 #[derive(Debug)]
