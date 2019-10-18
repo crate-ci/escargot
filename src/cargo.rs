@@ -3,7 +3,7 @@ use std::ffi;
 use std::process;
 use std::str;
 
-use build::CargoBuild;
+use crate::build::CargoBuild;
 
 /// The current process' target triplet.
 pub const CURRENT_TARGET: &str = include_str!(concat!(env!("OUT_DIR"), "/current_target.txt"));

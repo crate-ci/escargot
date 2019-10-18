@@ -1,5 +1,5 @@
-extern crate assert_fs;
-extern crate escargot;
+use assert_fs;
+use escargot;
 
 fn test_fixture(name: &str) {
     let temp = assert_fs::TempDir::new().unwrap();

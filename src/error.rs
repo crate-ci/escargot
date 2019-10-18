@@ -18,7 +18,7 @@ pub enum ErrorKind {
 }
 
 impl fmt::Display for ErrorKind {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match *self {
             ErrorKind::InvalidOutput => write!(f, "Spawning the cargo subommand failed."),
             ErrorKind::CommandFailed => write!(f, "The cargo subcommand returned an error."),
@@ -32,7 +32,7 @@ impl fmt::Display for ErrorKind {
 pub struct CargoError {
     kind: ErrorKind,
     context: Option<String>,
-    cause: Option<Box<Error + Send + Sync + 'static>>,
+    cause: Option<Box<dyn Error + Send + Sync + 'static>>,
 }
 
 impl CargoError {
@@ -73,16 +73,16 @@ impl Error for CargoError {
         "Cargo command failed."
     }
 
-    fn cause(&self) -> Option<&Error> {
+    fn cause(&self) -> Option<&dyn Error> {
         self.cause.as_ref().map(|c| {
-            let c: &Error = c.as_ref();
+            let c: &dyn Error = c.as_ref();
             c
         })
     }
 }
 
 impl fmt::Display for CargoError {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         writeln!(f, "Cargo command failed: {}", self.kind)?;
         if let Some(ref context) = self.context {
             writeln!(f, "{}", context)?;

@@ -1,13 +1,13 @@
 use std::ffi;
 use std::process;
 
-use cargo::Cargo;
-use cargo::CURRENT_TARGET;
-use error::*;
-use msg::*;
-use run::CargoRun;
+use crate::cargo::Cargo;
+use crate::cargo::CURRENT_TARGET;
+use crate::error::*;
+use crate::msg::*;
+use crate::run::CargoRun;
 #[cfg(feature = "test_unstable")]
-use test::CargoTest;
+use crate::test::CargoTest;
 
 /// The `build` subcommand.
 ///

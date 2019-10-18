@@ -174,7 +174,7 @@ pub struct BuildScript<'a> {
 }
 
 #[cfg(not(feature = "print"))]
-pub(crate) fn log_message(msg: &Message) {
+pub(crate) fn log_message(msg: &Message<'_>) {
     match msg {
         Message::CompilerArtifact(ref art) => {
             trace!("Building {:#?}", art.package_id,);
@@ -207,7 +207,7 @@ pub(crate) fn log_message(msg: &Message) {
 }
 
 #[cfg(feature = "print")]
-pub(crate) fn log_message(msg: &Message) {
+pub(crate) fn log_message(msg: &Message<'_>) {
     match msg {
         Message::CompilerArtifact(ref art) => {
             println!("Building {:#?}", art.package_id,);

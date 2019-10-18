@@ -1,9 +1,9 @@
 use std::path;
 use std::process;
 
-use error::*;
-use format;
-use msg::*;
+use crate::error::*;
+use crate::format;
+use crate::msg::*;
 
 /// The `run` subcommand (emulated).
 ///
@@ -107,7 +107,7 @@ impl CargoRun {
     }
 }
 
-fn extract_bin<'a>(msg: &'a format::Message, desired_kind: &str) -> Option<&'a path::Path> {
+fn extract_bin<'a>(msg: &'a format::Message<'_>, desired_kind: &str) -> Option<&'a path::Path> {
     match msg {
         format::Message::CompilerArtifact(art) => {
             if !art.profile.test

@@ -6,8 +6,8 @@ use std::process;
 use serde;
 use serde_json;
 
-use error::*;
-use format;
+use crate::error::*;
+use crate::format;
 
 /// Messages returned from a cargo sub-command.
 pub struct CommandMessages(InnerCommandMessages);
@@ -102,7 +102,7 @@ pub struct Message(String);
 
 impl Message {
     /// Deserialize the message.
-    pub fn decode(&self) -> CargoResult<format::Message> {
+    pub fn decode(&self) -> CargoResult<format::Message<'_>> {
         self.decode_custom()
     }
 
