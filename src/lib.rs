@@ -48,9 +48,6 @@
 #[macro_use]
 extern crate serde;
 
-#[macro_use]
-extern crate log;
-
 mod build;
 pub use crate::build::*;
 mod cargo;
