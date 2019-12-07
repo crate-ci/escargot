@@ -66,6 +66,11 @@ impl CargoError {
     pub fn kind(&self) -> ErrorKind {
         self.kind
     }
+    
+    /// The full context of the error if set.
+    pub fn context(&self) -> Option<String> {
+        self.context
+    }
 }
 
 impl Error for CargoError {
