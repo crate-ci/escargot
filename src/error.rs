@@ -69,10 +69,6 @@ impl CargoError {
 }
 
 impl Error for CargoError {
-    fn description(&self) -> &str {
-        "Cargo command failed."
-    }
-
     fn cause(&self) -> Option<&dyn Error> {
         self.cause.as_ref().map(|c| {
             let c: &dyn Error = c.as_ref();
