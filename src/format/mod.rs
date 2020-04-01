@@ -50,8 +50,8 @@ pub struct Artifact<'a> {
     #[serde(borrow)]
     pub filenames: Vec<CowPath<'a>>,
     /// The full paths to the generated artifacts
-    #[cfg(feature = "cargo_unstable")]
     #[serde(borrow)]
+    #[serde(default)]
     pub executable: Option<CowPath<'a>>,
     /// If true, then the files were already generated
     pub fresh: bool,
@@ -75,6 +75,9 @@ pub struct Target<'a> {
     #[serde(default)]
     #[serde(borrow)]
     pub crate_types: Vec<CowStr<'a>>,
+    /// Whether this is a doctest or not
+    #[serde(default)]
+    pub doctest: Option<bool>,
 
     #[serde(default)]
     #[serde(rename = "required-features")]
@@ -156,6 +159,10 @@ pub struct BuildScript<'a> {
     /// The workspace member this build script execution belongs to
     #[serde(borrow)]
     pub package_id: WorkspaceMember<'a>,
+    /// The outdir used.
+    #[serde(borrow)]
+    #[serde(default)]
+    pub out_dir: Option<CowPath<'a>>,
     /// The libs to link
     #[serde(borrow)]
     pub linked_libs: Vec<CowStr<'a>>,
