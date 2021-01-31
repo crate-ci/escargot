@@ -1,6 +1,13 @@
-<a name="0.5.0"></a>
-## 0.5.0 (2019-04-08)
+# Change Log
+All notable changes to this project will be documented in this file.
 
+The format is based on [Keep a Changelog](http://keepachangelog.com/)
+and this project adheres to [Semantic Versioning](http://semver.org/).
+
+<!-- next-header -->
+## [Unreleased] - ReleaseDate
+
+## [0.5.0] - 2019-04-08
 
 #### Features
 
@@ -15,11 +22,7 @@
 
 *   Gracefully handle upcoming cargo features ([a00f2408](https://github.com/crate-ci/escargot/commit/a00f240831ddc71b1846005df4917111e3690a82))
 
-
-
-<a name="0.4.0"></a>
-## 0.4.0 (2018-12-31)
-
+## [0.4.0] - 2018-12-31
 
 #### Features
 
@@ -41,21 +44,13 @@
 *   Stream messages ([343027d4](https://github.com/crate-ci/escargot/commit/343027d40cdeb94b820ecb0a8fbb145fcf3f19c7), breaks [#](https://github.com/crate-ci/escargot/issues/))
 *   MessageItr -> MessageIter ([07c4b257](https://github.com/crate-ci/escargot/commit/07c4b25740898b75af7b5d291be04ac737c5cd6c), closes [#9](https://github.com/crate-ci/escargot/issues/9), breaks [#](https://github.com/crate-ci/escargot/issues/))
 
-
-
-<a name="0.3.1"></a>
-## 0.3.1 (2018-08-07)
-
+## [0.3.1] - 2018-08-07
 
 #### Bug Fixes
 
 * **run:**  Example support ([99029550](https://github.com/crate-ci/escargot/commit/990295504ebd195f330e7b3e19b01e86a7b401f7), closes [#7](https://github.com/crate-ci/escargot/issues/7))
 
-
-
-<a name="0.3.0"></a>
-## 0.3.0 (2018-08-05)
-
+## [0.3.0] - 2018-08-05
 
 #### Features
 
@@ -66,10 +61,15 @@
 *  `current_target` spelling is corrected ([df4607a8](https://github.com/crate-ci/escargot/commit/df4607a8170a27d746e7c259e05c478a02d570e5))
 *  Removed parts of `CargoError` ([df4607a8](https://github.com/crate-ci/escargot/commit/df4607a8170a27d746e7c259e05c478a02d570e5))
 
-<a name="0.2.0"></a>
-## 0.2.0 (2018-06-27)
-
+## [0.2.0] - 2018-06-27
 
 #### Breaking Changes
 
 *   Define concrete CargoError ([445cb391](https://github.com/crate-ci/escargot/commit/445cb39156b63ce1894d40b31805273d995e185c), breaks [#](https://github.com/crate-ci/escargot/issues/))
+
+<!-- next-url -->
+[Unreleased]: https://github.com/assert-rs/predicates-rs/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/assert-rs/predicates-rs/compare/v0.4.0...v0.5.0
+[0.4.0]: https://github.com/assert-rs/predicates-rs/compare/v0.3.1...v0.4.0
+[0.3.1]: https://github.com/assert-rs/predicates-rs/compare/v0.3.0...v0.3.1
+[0.3.0]: https://github.com/assert-rs/predicates-rs/compare/v0.2.0...v0.3.0
