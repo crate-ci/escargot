@@ -3,9 +3,6 @@ use std::io::BufRead;
 use std::io::Read;
 use std::process;
 
-use serde;
-use serde_json;
-
 use crate::error::*;
 use crate::format;
 

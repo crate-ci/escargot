@@ -33,6 +33,7 @@ pub enum Message<'a> {
 /// A compiler-generated file.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[cfg_attr(feature = "strict_unstable", serde(deny_unknown_fields))]
+#[non_exhaustive]
 pub struct Artifact<'a> {
     /// The workspace member this artifact belongs to
     #[serde(borrow)]
@@ -55,14 +56,12 @@ pub struct Artifact<'a> {
     pub executable: Option<CowPath<'a>>,
     /// If true, then the files were already generated
     pub fresh: bool,
-    #[doc(hidden)]
-    #[serde(skip)]
-    __do_not_match_exhaustively: (),
 }
 
 /// A single target (lib, bin, example, ...) provided by a crate
 #[derive(Clone, Serialize, Deserialize, Debug)]
 #[cfg_attr(feature = "strict_unstable", serde(deny_unknown_fields))]
+#[non_exhaustive]
 pub struct Target<'a> {
     /// Name as given in the `Cargo.toml` or generated from the file name
     #[serde(borrow)]
@@ -92,9 +91,6 @@ pub struct Target<'a> {
     #[serde(default = "edition_default")]
     #[serde(borrow)]
     pub edition: CowStr<'a>,
-    #[doc(hidden)]
-    #[serde(skip)]
-    __do_not_match_exhaustively: (),
 }
 
 fn edition_default() -> CowStr<'static> {
@@ -116,6 +112,7 @@ pub struct WorkspaceMember<'a> {
 /// target.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[cfg_attr(feature = "strict_unstable", serde(deny_unknown_fields))]
+#[non_exhaustive]
 pub struct ArtifactProfile<'a> {
     /// Optimization level. Possible values are 0-3, s or z.
     #[serde(borrow)]
@@ -129,14 +126,12 @@ pub struct ArtifactProfile<'a> {
     pub overflow_checks: bool,
     /// Whether this profile is a test
     pub test: bool,
-    #[doc(hidden)]
-    #[serde(skip)]
-    __do_not_match_exhaustively: (),
 }
 
 /// Message left by the compiler
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[cfg_attr(feature = "strict_unstable", serde(deny_unknown_fields))]
+#[non_exhaustive]
 pub struct FromCompiler<'a> {
     /// The workspace member this message belongs to
     #[serde(borrow)]
@@ -147,14 +142,12 @@ pub struct FromCompiler<'a> {
     /// The message the compiler sent.
     #[serde(borrow)]
     pub message: diagnostic::Diagnostic<'a>,
-    #[doc(hidden)]
-    #[serde(skip)]
-    __do_not_match_exhaustively: (),
 }
 
 /// Output of a Build Script execution.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[cfg_attr(feature = "strict_unstable", serde(deny_unknown_fields))]
+#[non_exhaustive]
 pub struct BuildScript<'a> {
     /// The workspace member this build script execution belongs to
     #[serde(borrow)]
@@ -175,9 +168,6 @@ pub struct BuildScript<'a> {
     /// The environment variables to add to the compilation
     #[serde(borrow)]
     pub env: Vec<(CowStr<'a>, CowStr<'a>)>,
-    #[doc(hidden)]
-    #[serde(skip)]
-    __do_not_match_exhaustively: (),
 }
 
 #[cfg(not(feature = "print"))]
@@ -225,7 +215,7 @@ pub(crate) fn log_message(msg: &Message<'_>) {
                 .rendered
                 .as_ref()
                 .map(|s| s.as_ref())
-                .unwrap_or(comp.message.message.as_ref());
+                .unwrap_or_else(|| comp.message.message.as_ref());
             match comp.message.level {
                 diagnostic::DiagnosticLevel::Ice => println!("{}", content),
                 diagnostic::DiagnosticLevel::Error => println!("{}", content),

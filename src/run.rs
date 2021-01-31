@@ -35,7 +35,7 @@ use crate::msg::*;
 /// println!("artifact={}", run.path().display());
 /// ```
 ///
-/// [`CargoBuild::run`]: struct.CargoBuild.html#method.run
+/// [`CargoBuild::run`]: CargoBuild::run()
 pub struct CargoRun {
     bin_path: path::PathBuf,
 }
@@ -96,7 +96,7 @@ impl CargoRun {
     /// println!("artifact={}", run.path().display());
     /// ```
     ///
-    /// [`Command`]: https://doc.rust-lang.org/std/process/struct.Command.html
+    /// [`Command`]: std::process::Command
     pub fn path(&self) -> &path::Path {
         &self.bin_path
     }
@@ -114,7 +114,7 @@ fn extract_bin<'a>(msg: &'a format::Message<'_>, desired_kind: &str) -> Option<&
                 && art.target.crate_types == ["bin"]
                 && art.target.kind == [desired_kind]
             {
-                Some(art.filenames.iter().next().expect("files must exist"))
+                Some(art.filenames.get(0).expect("files must exist"))
             } else {
                 None
             }
