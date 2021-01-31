@@ -15,6 +15,7 @@ edition = "2018"
 [badges]
 azure-devops = { project = "crate-ci", pipeline = "escargot" }
 codecov = { repository = "crate-ci/escargot" }
+maintenance = { status = "passively-maintained" }
 
 [dependencies]
 serde = { version = "1.0", features = ["derive"] }
