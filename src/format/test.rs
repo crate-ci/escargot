@@ -42,16 +42,15 @@ pub enum Suite {
 
 /// Suite-started event.
 #[derive(Serialize, Deserialize, Debug, Eq, PartialEq)]
+#[non_exhaustive]
 pub struct SuiteStarted {
     /// Number of test cases in the suite.
     pub test_count: usize,
-    #[doc(hidden)]
-    #[serde(skip)]
-    __do_not_match_exhaustively: (),
 }
 
 /// Suite-finished successfully event.
 #[derive(Serialize, Deserialize, Debug, Eq, PartialEq)]
+#[non_exhaustive]
 pub struct SuiteOk {
     /// Cases that passed.
     pub passed: usize,
@@ -65,13 +64,11 @@ pub struct SuiteOk {
     pub measured: usize,
     /// Cases filtered out by caller.
     pub filtered_out: usize,
-    #[doc(hidden)]
-    #[serde(skip)]
-    __do_not_match_exhaustively: (),
 }
 
 /// Suite-finished with failure event.
 #[derive(Serialize, Deserialize, Debug, Eq, PartialEq)]
+#[non_exhaustive]
 pub struct SuiteFailed {
     /// Cases that passed.
     pub passed: usize,
@@ -85,9 +82,6 @@ pub struct SuiteFailed {
     pub measured: usize,
     /// Cases filtered out by caller.
     pub filtered_out: usize,
-    #[doc(hidden)]
-    #[serde(skip)]
-    __do_not_match_exhaustively: (),
 }
 
 /// Test case event.
@@ -115,26 +109,23 @@ pub enum Test {
 
 /// Case-started event.
 #[derive(Serialize, Deserialize, Debug, Eq, PartialEq)]
+#[non_exhaustive]
 pub struct TestStarted {
     /// Test case name.
     pub name: String,
-    #[doc(hidden)]
-    #[serde(skip)]
-    __do_not_match_exhaustively: (),
 }
 
 /// Case-finished successfully event.
 #[derive(Serialize, Deserialize, Debug, Eq, PartialEq)]
+#[non_exhaustive]
 pub struct TestOk {
     /// Test case name.
     pub name: String,
-    #[doc(hidden)]
-    #[serde(skip)]
-    __do_not_match_exhaustively: (),
 }
 
 /// Case-finished with failure event.
 #[derive(Serialize, Deserialize, Debug, Eq, PartialEq)]
+#[non_exhaustive]
 pub struct TestFailed {
     /// Test case name.
     pub name: String,
@@ -142,43 +133,35 @@ pub struct TestFailed {
     pub stdout: Option<String>,
     /// Test failure mssage
     pub message: Option<String>,
-    #[doc(hidden)]
-    #[serde(skip)]
-    __do_not_match_exhaustively: (),
 }
 
 /// Case-ignored event.
 #[derive(Serialize, Deserialize, Debug, Eq, PartialEq)]
+#[non_exhaustive]
 pub struct TestIgnored {
     /// Test case name.
     pub name: String,
-    #[doc(hidden)]
-    #[serde(skip)]
-    __do_not_match_exhaustively: (),
 }
 
 /// Case-allowed-failure event.
 #[derive(Serialize, Deserialize, Debug, Eq, PartialEq)]
+#[non_exhaustive]
 pub struct TestAllowedFailured {
     /// Test case name.
     pub name: String,
-    #[doc(hidden)]
-    #[serde(skip)]
-    __do_not_match_exhaustively: (),
 }
 
 /// Case-timeout event.
 #[derive(Serialize, Deserialize, Debug, Eq, PartialEq)]
+#[non_exhaustive]
 pub struct TestTimeout {
     /// Test case name.
     pub name: String,
-    #[doc(hidden)]
-    #[serde(skip)]
-    __do_not_match_exhaustively: (),
 }
 
 /// Benchmark event.
 #[derive(Serialize, Deserialize, Debug, Eq, PartialEq)]
+#[non_exhaustive]
 pub struct Bench {
     /// Benchmark name.
     pub name: String,
@@ -188,16 +171,11 @@ pub struct Bench {
     pub deviation: usize,
     /// Mb/s
     pub mib_per_second: Option<usize>,
-    #[doc(hidden)]
-    #[serde(skip)]
-    __do_not_match_exhaustively: (),
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    use serde_json;
 
     #[test]
     fn suite_started() {

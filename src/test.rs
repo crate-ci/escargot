@@ -148,21 +148,19 @@ impl CargoTest {
     }
 }
 
-fn extract_bin<'a>(msg: &'a format::Message<'_>) -> Option<CargoTest> {
+fn extract_bin(msg: &format::Message<'_>) -> Option<CargoTest> {
     match msg {
         format::Message::CompilerArtifact(art) => {
             if art.profile.test {
                 let bin_path = art
                     .filenames
-                    .iter()
-                    .next()
+                    .get(0)
                     .expect("files must exist")
                     .to_path_buf();
                 let kind = art
                     .target
                     .kind
-                    .iter()
-                    .next()
+                    .get(0)
                     .expect("kind must exist")
                     .as_ref()
                     .to_owned();
