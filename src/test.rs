@@ -35,7 +35,7 @@ use crate::msg::*;
 /// println!("artifact={}", run.path().display());
 /// ```
 ///
-/// [`CargoBuild::run_tests`]: struct.CargoBuild.html#method.run_tests
+/// [`CargoBuild::run_tests`]: CargoBuild::run_tests()
 pub struct CargoTest {
     bin_path: path::PathBuf,
     kind: String,
@@ -130,7 +130,7 @@ impl CargoTest {
     /// assert_eq!(run.len(), 3);
     /// ```
     ///
-    /// [`Command`]: https://doc.rust-lang.org/std/process/struct.Command.html
+    /// [`Command`]: std::process::Command
     pub fn path(&self) -> &path::Path {
         &self.bin_path
     }

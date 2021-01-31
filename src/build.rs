@@ -53,7 +53,6 @@ impl CargoBuild {
     ///     .unwrap();
     /// ```
     ///
-    /// [`Cargo`]: struct.Cargo.html
     pub fn new() -> Self {
         Cargo::new().build()
     }

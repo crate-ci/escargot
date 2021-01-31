@@ -35,7 +35,7 @@ use crate::msg::*;
 /// println!("artifact={}", run.path().display());
 /// ```
 ///
-/// [`CargoBuild::run`]: struct.CargoBuild.html#method.run
+/// [`CargoBuild::run`]: CargoBuild::run()
 pub struct CargoRun {
     bin_path: path::PathBuf,
 }
@@ -96,7 +96,7 @@ impl CargoRun {
     /// println!("artifact={}", run.path().display());
     /// ```
     ///
-    /// [`Command`]: https://doc.rust-lang.org/std/process/struct.Command.html
+    /// [`Command`]: std::process::Command
     pub fn path(&self) -> &path::Path {
         &self.bin_path
     }
