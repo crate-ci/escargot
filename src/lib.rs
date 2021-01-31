@@ -1,13 +1,6 @@
 //! # Escargot: A Cargo API
 //!
-//! ## Install
-//!
-//! Add to your `Cargo.toml`:
-//!
-//! ```toml
-//! [dependencies]
-//! escargot = "0.5"
-//! ```
+//! ## Features
 //!
 //! Features:
 //! - `print` for logged output to be printed instead, generally for test writing.
