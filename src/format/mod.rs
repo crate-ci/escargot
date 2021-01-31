@@ -15,6 +15,8 @@ type CowStr<'a> = borrow::Cow<'a, str>;
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "reason", rename_all = "kebab-case")]
 pub enum Message<'a> {
+    /// Build completed, all further output should not be parsed
+    BuildFinished(BuildFinished),
     /// The compiler generated an artifact
     #[serde(borrow)]
     CompilerArtifact(Artifact<'a>),
@@ -28,6 +30,14 @@ pub enum Message<'a> {
     #[doc(hidden)]
     #[serde(other)]
     Unknown,
+}
+
+/// Build completed, all further output should not be parsed
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "strict_unstable", serde(deny_unknown_fields))]
+#[non_exhaustive]
+pub struct BuildFinished {
+    success: bool,
 }
 
 /// A compiler-generated file.
@@ -77,6 +87,9 @@ pub struct Target<'a> {
     /// Whether this is a doctest or not
     #[serde(default)]
     pub doctest: Option<bool>,
+    /// Whether this is a test file
+    #[serde(default)]
+    pub test: bool,
 
     #[serde(default)]
     #[serde(rename = "required-features")]
@@ -173,6 +186,9 @@ pub struct BuildScript<'a> {
 #[cfg(not(feature = "print"))]
 pub(crate) fn log_message(msg: &Message<'_>) {
     match msg {
+        Message::BuildFinished(ref finished) => {
+            log::trace!("Build Finished: {:?}", finished.success);
+        }
         Message::CompilerArtifact(ref art) => {
             log::trace!("Building {:#?}", art.package_id,);
         }
@@ -206,6 +222,9 @@ pub(crate) fn log_message(msg: &Message<'_>) {
 #[cfg(feature = "print")]
 pub(crate) fn log_message(msg: &Message<'_>) {
     match msg {
+        Message::BuildFinished(ref finished) => {
+            println!("Build Finished: {:?}", finished.success);
+        }
         Message::CompilerArtifact(ref art) => {
             println!("Building {:#?}", art.package_id,);
         }

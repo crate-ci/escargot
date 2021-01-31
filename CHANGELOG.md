@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+#### Features
+
+* Support `build-finished` message
+
 ## [0.5.0] - 2019-04-08
 
 #### Features
