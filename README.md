@@ -8,15 +8,6 @@
 ![License](https://img.shields.io/crates/l/escargot.svg)
 [![Crates Status](https://img.shields.io/crates/v/escargot.svg)](https://crates.io/crates/escargot)
 
-## Install
-
-Add to your `Cargo.toml`:
-
-```toml
-[dependencies]
-escargot = "0.5"
-```
-
 ## Why escargot
 
 Compared to depending on `cargo`:
