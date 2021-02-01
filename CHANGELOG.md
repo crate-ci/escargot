@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+## [0.5.1] - 2021-02-01
+
 #### Features
 
 * Support `build-finished` message
@@ -72,7 +74,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 *   Define concrete CargoError ([445cb391](https://github.com/crate-ci/escargot/commit/445cb39156b63ce1894d40b31805273d995e185c), breaks [#](https://github.com/crate-ci/escargot/issues/))
 
 <!-- next-url -->
-[Unreleased]: https://github.com/assert-rs/predicates-rs/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/assert-rs/predicates-rs/compare/v0.5.1...HEAD
+[0.5.1]: https://github.com/assert-rs/predicates-rs/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/assert-rs/predicates-rs/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/assert-rs/predicates-rs/compare/v0.3.1...v0.4.0
 [0.3.1]: https://github.com/assert-rs/predicates-rs/compare/v0.3.0...v0.3.1
