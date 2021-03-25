@@ -1,4 +1,4 @@
-use std::ffi;
+use std::ffi::{self, OsStr};
 use std::process;
 
 use crate::cargo::Cargo;
@@ -175,6 +175,17 @@ impl CargoBuild {
     /// Build artifacts in release mode, with optimizations.
     pub fn release(self) -> Self {
         self.arg("--release")
+    }
+
+    /// Inserts or updates an environment variable mapping.
+    pub fn env<K, V>(mut self, key: K, val: V) -> Self
+    where
+        K: AsRef<OsStr>,
+        V: AsRef<OsStr>,
+    {
+        self.cmd.env(key, val);
+
+        self
     }
 
     /// Build artifacts in release mode if the current process has, with optimizations.
