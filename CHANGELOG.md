@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+#### Features
+
+* New `env` method for passing environment variables to the `cargo` calls.
+
 ## [0.5.1] - 2021-02-01
 
 #### Features
