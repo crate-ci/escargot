@@ -19,10 +19,8 @@ use crate::msg::*;
 ///
 /// # Example
 ///
+/// To create a [`CargoRun`]:
 /// ```rust
-/// extern crate escargot;
-/// extern crate assert_fs;
-///
 /// let temp = assert_fs::TempDir::new().unwrap();
 /// let run = escargot::CargoBuild::new()
 ///     .bin("bin")
@@ -34,8 +32,8 @@ use crate::msg::*;
 ///     .unwrap();
 /// println!("artifact={}", run.path().display());
 /// ```
-///
-/// [`CargoBuild::run`]: CargoBuild::run()
+/// See [`CargoRun::path`] and [`CargoBuild::command`] for how to then run the newly compiled
+/// program.
 pub struct CargoRun {
     bin_path: path::PathBuf,
 }
@@ -65,9 +63,6 @@ impl CargoRun {
     /// # Example
     ///
     /// ```rust
-    /// extern crate escargot;
-    /// extern crate assert_fs;
-    ///
     /// let temp = assert_fs::TempDir::new().unwrap();
     /// let run = escargot::CargoBuild::new()
     ///     .bin("bin")
@@ -80,10 +75,7 @@ impl CargoRun {
     /// println!("artifact={}", run.path().display());
     /// ```
     /// or
-    /// ```rust
-    /// extern crate escargot;
-    /// extern crate assert_fs;
-    ///
+    /// ```rust,no_run
     /// let temp = assert_fs::TempDir::new().unwrap();
     /// let run = escargot::CargoBuild::new()
     ///     .example("example_fixture")
@@ -102,6 +94,43 @@ impl CargoRun {
     }
 
     /// Run the build artifact.
+    ///
+    /// # Example
+    ///
+    /// ```rust,no_run
+    /// let temp = assert_fs::TempDir::new().unwrap();
+    /// let run = escargot::CargoBuild::new()
+    ///     .bin("bin")
+    ///     .current_release()
+    ///     .current_target()
+    ///     .manifest_path("tests/fixtures/bin/Cargo.toml")
+    ///     .target_dir(temp.path())
+    ///     .run()
+    ///     .unwrap()
+    ///     .command()
+    ///     .arg("--help")
+    ///     .status()
+    ///     .unwrap();
+    /// ```
+    /// or
+    /// ```rust
+    /// extern crate escargot;
+    /// extern crate assert_fs;
+    ///
+    /// let temp = assert_fs::TempDir::new().unwrap();
+    /// let run = escargot::CargoBuild::new()
+    ///     .example("example_fixture")
+    ///     .current_release()
+    ///     .current_target()
+    ///     .manifest_path("tests/fixtures/example/Cargo.toml")
+    ///     .target_dir(temp.path())
+    ///     .run()
+    ///     .unwrap()
+    ///     .command()
+    ///     .arg("--help")
+    ///     .status()
+    ///     .unwrap();
+    /// ```
     pub fn command(&self) -> process::Command {
         process::Command::new(self.path())
     }
