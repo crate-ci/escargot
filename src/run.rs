@@ -7,7 +7,7 @@ use crate::msg::*;
 
 /// The `run` subcommand (emulated).
 ///
-/// Created via [`CargoBuild::run`].
+/// Created via [`CargoBuild::run`][crate::CargoBuild::run].
 ///
 /// Benefits over spawning `cargo run`:
 /// - Able to cache binary path, avoiding cargo overhead.
@@ -32,7 +32,7 @@ use crate::msg::*;
 ///     .unwrap();
 /// println!("artifact={}", run.path().display());
 /// ```
-/// See [`CargoRun::path`] and [`CargoBuild::command`] for how to then run the newly compiled
+/// See [`CargoRun::path`] for how to then run the newly compiled
 /// program.
 pub struct CargoRun {
     bin_path: path::PathBuf,
