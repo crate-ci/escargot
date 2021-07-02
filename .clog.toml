@@ -1,4 +1,0 @@
-[clog]
-repository = "https://github.com/crate-ci/escargot"
-changelog = "CHANGELOG.md"
-from-latest-tag = true
