@@ -60,10 +60,28 @@ jobs:
     - uses: Swatinem/rust-cache@v1
     - name: Default features
       run: cargo test --workspace
-    - name: All features
-      run: cargo test --workspace --all-features
     - name: No-default features
       run: cargo test --workspace --no-default-features
+  upcoming:
+    name: "New Message Check"
+    needs: smoke
+    strategy:
+      matrix:
+        rust: ["stable", "beta", "nightly"]
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Install Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: ${{ matrix.rust }}
+        profile: minimal
+        override: true
+    - uses: Swatinem/rust-cache@v1
+    - name: Message Check
+      run: cargo test --workspace --all-features
   msrv:
     name: "Check MSRV: 1.44.0"
     needs: smoke
