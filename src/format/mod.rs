@@ -79,7 +79,7 @@ pub struct Target<'a> {
     /// Kind of target ("bin", "example", "test", "bench", "lib")
     #[serde(borrow)]
     pub kind: Vec<CowStr<'a>>,
-    /// Almost the same as `kind`, except when an example is a library instad of an executable.
+    /// Almost the same as `kind`, except when an example is a library instead of an executable.
     /// In that case `crate_types` contains things like `rlib` and `dylib` while `kind` is `example`
     #[serde(default)]
     #[serde(borrow)]
