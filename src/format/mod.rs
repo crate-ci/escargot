@@ -198,7 +198,7 @@ pub(crate) fn log_message(msg: &Message<'_>) {
                 .rendered
                 .as_ref()
                 .map(|s| s.as_ref())
-                .unwrap_or(comp.message.message.as_ref());
+                .unwrap_or_else(|| comp.message.message.as_ref());
             match comp.message.level {
                 diagnostic::DiagnosticLevel::Ice => log::error!("{}", content),
                 diagnostic::DiagnosticLevel::Error => log::error!("{}", content),

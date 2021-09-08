@@ -39,6 +39,8 @@ impl CommandMessages {
 
     #[inline]
     fn next_msg(&mut self) -> CargoResult<Option<Message>> {
+        #![allow(clippy::branches_sharing_code)]
+
         let mut content = String::new();
         let len = self
             .0
