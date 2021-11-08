@@ -48,6 +48,9 @@ pub struct Artifact<'a> {
     /// The workspace member this artifact belongs to
     #[serde(borrow)]
     pub package_id: WorkspaceMember<'a>,
+    /// The full path to the artifact's manifest
+    #[serde(borrow)]
+    pub manifest_path: Option<CowPath<'a>>,
     /// The target this artifact was compiled for
     #[serde(borrow)]
     pub target: Target<'a>,
@@ -87,6 +90,9 @@ pub struct Target<'a> {
     /// Whether this is a doctest or not
     #[serde(default)]
     pub doctest: Option<bool>,
+    /// Whether this is documentation or not
+    #[serde(default)]
+    pub doc: Option<bool>,
     /// Whether this is a test file
     #[serde(default)]
     pub test: bool,
@@ -149,6 +155,9 @@ pub struct FromCompiler<'a> {
     /// The workspace member this message belongs to
     #[serde(borrow)]
     pub package_id: WorkspaceMember<'a>,
+    /// The full path to the artifact's manifest
+    #[serde(borrow)]
+    pub manifest_path: Option<CowPath<'a>>,
     /// The target this message is aimed at
     #[serde(borrow)]
     pub target: Target<'a>,
