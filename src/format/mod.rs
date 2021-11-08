@@ -232,10 +232,10 @@ pub(crate) fn log_message(msg: &Message<'_>) {
 pub(crate) fn log_message(msg: &Message<'_>) {
     match msg {
         Message::BuildFinished(ref finished) => {
-            println!("Build Finished: {:?}", finished.success);
+            eprintln!("Build Finished: {:?}", finished.success);
         }
         Message::CompilerArtifact(ref art) => {
-            println!("Building {:#?}", art.package_id,);
+            eprintln!("Building {:#?}", art.package_id,);
         }
         Message::CompilerMessage(ref comp) => {
             let content = comp
@@ -245,21 +245,21 @@ pub(crate) fn log_message(msg: &Message<'_>) {
                 .map(|s| s.as_ref())
                 .unwrap_or_else(|| comp.message.message.as_ref());
             match comp.message.level {
-                diagnostic::DiagnosticLevel::Ice => println!("{}", content),
-                diagnostic::DiagnosticLevel::Error => println!("{}", content),
-                diagnostic::DiagnosticLevel::Warning => println!("{}", content),
-                diagnostic::DiagnosticLevel::Note => println!("{}", content),
-                diagnostic::DiagnosticLevel::Help => println!("{}", content),
+                diagnostic::DiagnosticLevel::Ice => eprintln!("{}", content),
+                diagnostic::DiagnosticLevel::Error => eprintln!("{}", content),
+                diagnostic::DiagnosticLevel::Warning => eprintln!("{}", content),
+                diagnostic::DiagnosticLevel::Note => eprintln!("{}", content),
+                diagnostic::DiagnosticLevel::Help => eprintln!("{}", content),
                 #[cfg(not(feature = "strict_unstable"))]
-                _ => warn!("Unknown message: {:#?}", msg),
+                _ => eprintln!("Unknown message: {:#?}", msg),
             }
         }
         Message::BuildScriptExecuted(ref script) => {
-            println!("Ran script from {:#?}", script.package_id);
+            eprintln!("Ran script from {:#?}", script.package_id);
         }
         #[cfg(not(feature = "strict_unstable"))]
         _ => {
-            println!("Unknown message: {:#?}", msg);
+            eprintln!("Unknown message: {:#?}", msg);
         }
     }
 }
