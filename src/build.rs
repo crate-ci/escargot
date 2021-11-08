@@ -106,6 +106,27 @@ impl CargoBuild {
         self.arg("--bin").arg(name)
     }
 
+    /// Build all examples
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// extern crate escargot;
+    /// extern crate assert_fs;
+    ///
+    /// let temp = assert_fs::TempDir::new().unwrap();
+    /// escargot::CargoBuild::new()
+    ///     .examples()
+    ///     .manifest_path("tests/fixtures/example/Cargo.toml")
+    ///     .target_dir(temp.path())
+    ///     .exec()
+    ///     .unwrap();
+    /// ```
+    pub fn examples(mut self) -> Self {
+        self.example = true;
+        self.arg("--examples")
+    }
+
     /// Build only `name` example.
     ///
     /// # Example
