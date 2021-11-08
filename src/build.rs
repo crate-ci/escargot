@@ -259,6 +259,13 @@ impl CargoBuild {
         self
     }
 
+    /// Manually pass arguments that are unsupported.
+    ///
+    /// Caution: Passing in `--` can throw off the API.
+    pub fn args<I: IntoIterator<Item = S>, S: AsRef<ffi::OsStr>>(mut self, args: I) -> Self {
+        self.cmd.args(args);
+        self
+    }
     /// Build the configured target, returning compiler messages.
     pub fn exec(self) -> CargoResult<CommandMessages> {
         CommandMessages::with_command(self.cmd)
