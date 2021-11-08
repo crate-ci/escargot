@@ -251,7 +251,7 @@ pub(crate) fn log_message(msg: &Message<'_>) {
                 diagnostic::DiagnosticLevel::Note => println!("{}", content),
                 diagnostic::DiagnosticLevel::Help => println!("{}", content),
                 #[cfg(not(feature = "strict_unstable"))]
-                _ => warn!("Unknown message: {:#?}", msg),
+                _ => println!("Unknown message: {:#?}", msg),
             }
         }
         Message::BuildScriptExecuted(ref script) => {
