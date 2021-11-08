@@ -12,6 +12,7 @@ categories = ["development-tools::build-utils"]
 keywords = ["cargo", "packaging"]
 edition = "2018"
 include = [
+  "build.rs",
   "src/**/*",
   "Cargo.toml",
   "LICENSE*",
