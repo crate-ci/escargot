@@ -266,6 +266,7 @@ impl CargoBuild {
         self.cmd.args(args);
         self
     }
+
     /// Build the configured target, returning compiler messages.
     pub fn exec(self) -> CargoResult<CommandMessages> {
         CommandMessages::with_command(self.cmd)
