@@ -7,7 +7,7 @@ use serde::Deserialize;
 // See https://github.com/rust-lang/rust/tree/master/src/libtest/formatters/json.rs
 
 /// Test-runner event.
-#[derive(Serialize, Deserialize, Debug, Eq, PartialEq)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
 #[serde(rename_all = "snake_case")]
 #[serde(tag = "type")]
 pub enum Event {
@@ -24,7 +24,7 @@ pub enum Event {
 }
 
 /// Suite event.
-#[derive(Serialize, Deserialize, Debug, Eq, PartialEq)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
 #[serde(rename_all = "snake_case")]
 #[serde(tag = "event")]
 pub enum Suite {
@@ -41,7 +41,7 @@ pub enum Suite {
 }
 
 /// Suite-started event.
-#[derive(Serialize, Deserialize, Debug, Eq, PartialEq)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
 #[non_exhaustive]
 pub struct SuiteStarted {
     /// Number of test cases in the suite.
@@ -49,7 +49,7 @@ pub struct SuiteStarted {
 }
 
 /// Suite-finished successfully event.
-#[derive(Serialize, Deserialize, Debug, Eq, PartialEq)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
 #[non_exhaustive]
 pub struct SuiteOk {
     /// Cases that passed.
@@ -67,7 +67,7 @@ pub struct SuiteOk {
 }
 
 /// Suite-finished with failure event.
-#[derive(Serialize, Deserialize, Debug, Eq, PartialEq)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
 #[non_exhaustive]
 pub struct SuiteFailed {
     /// Cases that passed.
@@ -85,7 +85,7 @@ pub struct SuiteFailed {
 }
 
 /// Test case event.
-#[derive(Serialize, Deserialize, Debug, Eq, PartialEq)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
 #[serde(rename_all = "snake_case")]
 #[serde(tag = "event")]
 pub enum Test {
@@ -108,7 +108,7 @@ pub enum Test {
 }
 
 /// Case-started event.
-#[derive(Serialize, Deserialize, Debug, Eq, PartialEq)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
 #[non_exhaustive]
 pub struct TestStarted {
     /// Test case name.
@@ -116,7 +116,7 @@ pub struct TestStarted {
 }
 
 /// Case-finished successfully event.
-#[derive(Serialize, Deserialize, Debug, Eq, PartialEq)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
 #[non_exhaustive]
 pub struct TestOk {
     /// Test case name.
@@ -124,7 +124,7 @@ pub struct TestOk {
 }
 
 /// Case-finished with failure event.
-#[derive(Serialize, Deserialize, Debug, Eq, PartialEq)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
 #[non_exhaustive]
 pub struct TestFailed {
     /// Test case name.
@@ -136,7 +136,7 @@ pub struct TestFailed {
 }
 
 /// Case-ignored event.
-#[derive(Serialize, Deserialize, Debug, Eq, PartialEq)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
 #[non_exhaustive]
 pub struct TestIgnored {
     /// Test case name.
@@ -144,7 +144,7 @@ pub struct TestIgnored {
 }
 
 /// Case-allowed-failure event.
-#[derive(Serialize, Deserialize, Debug, Eq, PartialEq)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
 #[non_exhaustive]
 pub struct TestAllowedFailured {
     /// Test case name.
@@ -152,7 +152,7 @@ pub struct TestAllowedFailured {
 }
 
 /// Case-timeout event.
-#[derive(Serialize, Deserialize, Debug, Eq, PartialEq)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
 #[non_exhaustive]
 pub struct TestTimeout {
     /// Test case name.
@@ -160,7 +160,7 @@ pub struct TestTimeout {
 }
 
 /// Benchmark event.
-#[derive(Serialize, Deserialize, Debug, Eq, PartialEq)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
 #[non_exhaustive]
 pub struct Bench {
     /// Benchmark name.

@@ -12,7 +12,7 @@ type CowPath<'a> = borrow::Cow<'a, path::Path>;
 type CowStr<'a> = borrow::Cow<'a, str>;
 
 /// A cargo message
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(tag = "reason", rename_all = "kebab-case")]
 pub enum Message<'a> {
     /// Build completed, all further output should not be parsed
@@ -33,7 +33,7 @@ pub enum Message<'a> {
 }
 
 /// Build completed, all further output should not be parsed
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[cfg_attr(feature = "strict_unstable", serde(deny_unknown_fields))]
 #[non_exhaustive]
 pub struct BuildFinished {
@@ -41,7 +41,7 @@ pub struct BuildFinished {
 }
 
 /// A compiler-generated file.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[cfg_attr(feature = "strict_unstable", serde(deny_unknown_fields))]
 #[non_exhaustive]
 pub struct Artifact<'a> {
@@ -72,7 +72,7 @@ pub struct Artifact<'a> {
 }
 
 /// A single target (lib, bin, example, ...) provided by a crate
-#[derive(Clone, Serialize, Deserialize, Debug)]
+#[derive(Clone, PartialEq, Eq, Serialize, Deserialize, Debug)]
 #[cfg_attr(feature = "strict_unstable", serde(deny_unknown_fields))]
 #[non_exhaustive]
 pub struct Target<'a> {
@@ -118,7 +118,7 @@ fn edition_default() -> CowStr<'static> {
 
 /// A workspace member. This is basically identical to `cargo::core::package_id::PackageId`, except
 /// that this does not use `Arc` internally.
-#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
 #[serde(transparent)]
 #[cfg_attr(feature = "strict_unstable", serde(deny_unknown_fields))]
 pub struct WorkspaceMember<'a> {
@@ -129,7 +129,7 @@ pub struct WorkspaceMember<'a> {
 
 /// Profile settings used to determine which compiler flags to use for a
 /// target.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[cfg_attr(feature = "strict_unstable", serde(deny_unknown_fields))]
 #[non_exhaustive]
 pub struct ArtifactProfile<'a> {
@@ -148,7 +148,7 @@ pub struct ArtifactProfile<'a> {
 }
 
 /// Message left by the compiler
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[cfg_attr(feature = "strict_unstable", serde(deny_unknown_fields))]
 #[non_exhaustive]
 pub struct FromCompiler<'a> {
@@ -167,7 +167,7 @@ pub struct FromCompiler<'a> {
 }
 
 /// Output of a Build Script execution.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[cfg_attr(feature = "strict_unstable", serde(deny_unknown_fields))]
 #[non_exhaustive]
 pub struct BuildScript<'a> {
