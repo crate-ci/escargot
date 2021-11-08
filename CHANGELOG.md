@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+## [0.5.4] - 2021-11-08
+
 #### Features
 
 - Add `CargoBuild::args`
@@ -91,7 +93,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 *   Define concrete CargoError ([445cb391](https://github.com/crate-ci/escargot/commit/445cb39156b63ce1894d40b31805273d995e185c), breaks [#](https://github.com/crate-ci/escargot/issues/))
 
 <!-- next-url -->
-[Unreleased]: https://github.com/crate-ci/escargot/compare/v0.5.3...HEAD
+[Unreleased]: https://github.com/crate-ci/escargot/compare/v0.5.4...HEAD
+[0.5.4]: https://github.com/crate-ci/escargot/compare/v0.5.3...v0.5.4
 [0.5.3]: https://github.com/crate-ci/escargot/compare/v0.5.2...v0.5.3
 [0.5.2]: https://github.com/crate-ci/escargot/compare/v0.5.1...v0.5.2
 [0.5.1]: https://github.com/crate-ci/escargot/compare/v0.5.0...v0.5.1
