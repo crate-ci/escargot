@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+#### Fixes
+
+- Get `print` feature compiling
+- Keep stdout clean with `print` by printing to stderr
+
 ## [0.5.5] - 2021-11-08
 
 #### Features
