@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+#### Features
+
+- Add `CargoBuild::examples`
+- Add extra message fields
+
 ## [0.5.2] - 2021-03-27
 
 #### Features
