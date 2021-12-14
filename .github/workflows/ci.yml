@@ -140,3 +140,31 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         args: --workspace --all-features --all-targets -- -D warnings
+  minimal_versions:
+    name: Minimal versions
+    needs: smoke
+    strategy:
+      matrix:
+        os: [ "ubuntu-latest", "windows-latest", "macos-latest" ]
+        rust: [ "1.54.0" ] # MSRV
+    continue-on-error: ${{ matrix.rust != 'stable' }}
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+         profile: minimal
+         toolchain: nightly
+      - uses: actions-rs/toolchain@v1
+        with:
+         profile: minimal
+         toolchain: ${{ matrix.rust }}
+         override: true
+      - name: Downgrade crates to minimal supported versions
+        run: cargo +nightly update -Z minimal-versions
+      - uses: Swatinem/rust-cache@v1
+      - name: Default features
+        run: cargo test --workspace
+      - name: No-default features
+        run: cargo test --workspace --no-default-features
