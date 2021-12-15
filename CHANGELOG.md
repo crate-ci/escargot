@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+#### Fixes
+
+- Update version requirements to minimum required
+
 ## [0.5.6] - 2021-11-08
 
 #### Fixes
