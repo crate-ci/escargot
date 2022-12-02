@@ -35,7 +35,7 @@ use crate::msg::*;
 /// println!("artifact={}", run.path().display());
 /// ```
 ///
-/// [`CargoBuild::run_tests`]: CargoBuild::run_tests()
+/// [`CargoBuild::run_tests`]: crate::CargoBuild::run_tests()
 pub struct CargoTest {
     bin_path: path::PathBuf,
     kind: String,
