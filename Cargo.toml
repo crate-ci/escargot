@@ -3,23 +3,29 @@ name = "escargot"
 version = "0.5.7"
 description = "Cargo API written in Paris"
 authors = ["Ed Page <eopage@gmail.com>"]
-license = "MIT OR Apache-2.0"
 repository = "https://github.com/crate-ci/escargot.git"
 homepage = "https://github.com/crate-ci/escargot"
 documentation = "http://docs.rs/escargot/"
 readme = "README.md"
 categories = ["development-tools::build-utils"]
 keywords = ["cargo", "packaging"]
+license = "MIT OR Apache-2.0"
 edition = "2021"
-rust-version = "1.60.0"  # MSRV
+rust-version = "1.65.0"  # MSRV
 include = [
   "build.rs",
   "src/**/*",
   "Cargo.toml",
+  "Cargo.lock",
   "LICENSE*",
   "README.md",
+  "benches/**/*",
   "examples/**/*"
 ]
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
 
 [package.metadata.release]
 pre-release-replacements = [
@@ -50,6 +56,3 @@ strict_unstable = []
 # This is for when using `escargot` in tests and you want logged output to
 # instead be printed because no logger is configured.
 print = []
-
-[package.metadata.docs.rs]
-features = [ "cargo_unstable", "test_unstable" ]
