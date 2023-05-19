@@ -14,6 +14,7 @@ type CowStr<'a> = borrow::Cow<'a, str>;
 /// A cargo message
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(tag = "reason", rename_all = "kebab-case")]
+#[allow(clippy::large_enum_variant)]
 pub enum Message<'a> {
     /// Build completed, all further output should not be parsed
     BuildFinished(BuildFinished),
