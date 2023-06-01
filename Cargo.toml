@@ -11,7 +11,7 @@ categories = ["development-tools::build-utils"]
 keywords = ["cargo", "packaging"]
 license = "MIT OR Apache-2.0"
 edition = "2021"
-rust-version = "1.66.0"  # MSRV
+rust-version = "1.66.1"  # MSRV
 include = [
   "build.rs",
   "src/**/*",
