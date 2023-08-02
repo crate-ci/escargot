@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+### Features
+
+- `CargoBuild::env_remove` support
+
 ## [0.5.7] - 2021-12-15
 
 #### Fixes
