@@ -209,6 +209,15 @@ impl CargoBuild {
         self
     }
 
+    /// Removes an environment variable
+    pub fn env_remove<K>(mut self, key: K) -> Self
+    where
+        K: AsRef<OsStr>,
+    {
+        self.cmd.env_remove(key);
+        self
+    }
+
     /// Build artifacts in release mode if the current process has, with optimizations.
     #[cfg(debug_assertions)]
     pub fn current_release(self) -> Self {
