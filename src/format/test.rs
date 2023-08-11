@@ -98,7 +98,7 @@ pub enum Test {
     /// Case-ignored event.
     Ignored(TestIgnored),
     /// Case-allowed-failure event.
-    AllowedFailure(TestAllowedFailured),
+    AllowedFailure(TestAllowedFailure),
     /// Case-timeout event.
     Timeout(TestTimeout),
     #[cfg(not(feature = "strict_unstable"))]
@@ -146,7 +146,7 @@ pub struct TestIgnored {
 /// Case-allowed-failure event.
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
 #[non_exhaustive]
-pub struct TestAllowedFailured {
+pub struct TestAllowedFailure {
     /// Test case name.
     pub name: String,
 }
