@@ -5,7 +5,7 @@
 [![codecov](https://codecov.io/gh/crate-ci/escargot/branch/master/graph/badge.svg)](https://codecov.io/gh/crate-ci/escargot)
 [![Documentation](https://img.shields.io/badge/docs-master-blue.svg)][Documentation]
 ![License](https://img.shields.io/crates/l/escargot.svg)
-[![Crates Status](https://img.shields.io/crates/v/escargot.svg)](https://crates.io/crates/escargot)
+[![Crates Status](https://img.shields.io/crates/v/escargot.svg)][Crates.io]
 
 ## Why escargot
 
@@ -25,8 +25,8 @@ Other related crates:
 
 Licensed under either of
 
- * Apache License, Version 2.0, ([LICENSE-APACHE](LICENSE-APACHE) or http://www.apache.org/licenses/LICENSE-2.0)
- * MIT license ([LICENSE-MIT](LICENSE-MIT) or http://opensource.org/licenses/MIT)
+* Apache License, Version 2.0, ([LICENSE-APACHE](LICENSE-APACHE) or <http://www.apache.org/licenses/LICENSE-2.0>)
+* MIT license ([LICENSE-MIT](LICENSE-MIT) or <http://opensource.org/licenses/MIT>)
 
 at your option.
 
