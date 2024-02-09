@@ -117,6 +117,11 @@ pub enum Applicability {
 #[cfg_attr(feature = "strict_unstable", serde(deny_unknown_fields))]
 #[non_exhaustive]
 pub struct Diagnostic<'a> {
+    /// Can be used to distinguish the different formats.
+    ///
+    /// When parsing, care should be taken to be forwards-compatible with future changes to the format.
+    #[serde(borrow, rename = "$message_type")]
+    pub message_type: Option<CowStr<'a>>,
     /// The error message of this diagnostic.
     #[serde(borrow)]
     pub message: CowStr<'a>,
