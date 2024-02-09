@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+### Compatibility
+
+- Bumped MSRV to 1.72
+- Breaking change with *(test_unstable)* feature
+
+### Features
+
+- Add support for `Diagnostic::message_type`
+
+### Fixes
+
+- *(test_unstable)* Fixed spelling of `Failure`
+
 ## [0.5.8] - 2023-08-02
 
 ### Features
