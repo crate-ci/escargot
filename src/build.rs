@@ -85,6 +85,28 @@ impl CargoBuild {
     pub fn package<S: AsRef<ffi::OsStr>>(self, name: S) -> Self {
         self.arg("--package").arg(name)
     }
+
+    /// Build all binaries.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// extern crate escargot;
+    /// extern crate assert_fs;
+    ///
+    /// let temp = assert_fs::TempDir::new().unwrap();
+    /// escargot::CargoBuild::new()
+    ///     .bins()
+    ///     .manifest_path("tests/fixtures/bin/Cargo.toml")
+    ///     .target_dir(temp.path())
+    ///     .exec()
+    ///     .unwrap();
+    /// ```
+    pub fn bins(mut self) -> Self {
+        self.bin = true;
+        self.arg("--bins")
+    }
+
     /// Build only `name` binary.
     ///
     /// # Example
