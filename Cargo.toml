@@ -1,6 +1,6 @@
 [package]
 name = "escargot"
-version = "0.5.9"
+version = "0.5.10"
 description = "Cargo API written in Paris"
 authors = ["Ed Page <eopage@gmail.com>"]
 repository = "https://github.com/crate-ci/escargot.git"
