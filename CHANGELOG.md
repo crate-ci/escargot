@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+### Features
+
+- Add `CargoBuild::bins`
+
 ## [0.5.9] - 2024-02-09
 
 ### Compatibility
