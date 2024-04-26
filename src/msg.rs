@@ -3,7 +3,7 @@ use std::io::BufRead;
 use std::io::Read;
 use std::process;
 
-use crate::error::*;
+use crate::error::{CargoError, CargoResult, ErrorKind};
 use crate::format;
 
 /// Messages returned from a cargo sub-command.

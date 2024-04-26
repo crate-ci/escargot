@@ -2,7 +2,7 @@ fn test_fixture(name: &str) {
     let temp = assert_fs::TempDir::new().unwrap();
 
     let cmd = escargot::CargoBuild::new()
-        .manifest_path(format!("tests/fixtures/{}/Cargo.toml", name))
+        .manifest_path(format!("tests/testsuite/fixtures/{}/Cargo.toml", name))
         .current_release()
         .current_target()
         .target_dir(temp.path())
@@ -25,7 +25,7 @@ fn test_warn() {
 #[test]
 fn test_error() {
     let result = escargot::CargoBuild::new()
-        .manifest_path("tests/fixtures/error/Cargo.toml")
+        .manifest_path("tests/testsuite/fixtures/error/Cargo.toml")
         .current_release()
         .current_target()
         .run();

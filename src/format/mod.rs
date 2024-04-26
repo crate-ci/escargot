@@ -230,6 +230,7 @@ pub(crate) fn log_message(msg: &Message<'_>) {
 }
 
 #[cfg(feature = "print")]
+#[allow(clippy::print_stderr)]
 pub(crate) fn log_message(msg: &Message<'_>) {
     match msg {
         Message::BuildFinished(ref finished) => {

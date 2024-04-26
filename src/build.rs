@@ -1,10 +1,10 @@
-use std::ffi::{self, OsStr};
+use std::ffi::OsStr;
 use std::process;
 
 use crate::cargo::Cargo;
 use crate::cargo::CURRENT_TARGET;
-use crate::error::*;
-use crate::msg::*;
+use crate::error::{CargoError, CargoResult};
+use crate::msg::CommandMessages;
 use crate::run::CargoRun;
 #[cfg(feature = "test_unstable")]
 use crate::test::CargoTest;
@@ -22,7 +22,7 @@ use crate::test::CargoTest;
 ///     .bin("bin")
 ///     .current_release()
 ///     .current_target()
-///     .manifest_path("tests/fixtures/bin/Cargo.toml")
+///     .manifest_path("tests/testsuite/fixtures/bin/Cargo.toml")
 ///     .target_dir(temp.path())
 ///     .exec()
 ///     .unwrap();
@@ -47,7 +47,7 @@ impl CargoBuild {
     /// let temp = assert_fs::TempDir::new().unwrap();
     /// escargot::CargoBuild::new()
     ///     .bin("bin")
-    ///     .manifest_path("tests/fixtures/bin/Cargo.toml")
+    ///     .manifest_path("tests/testsuite/fixtures/bin/Cargo.toml")
     ///     .target_dir(temp.path())
     ///     .exec()
     ///     .unwrap();
@@ -77,12 +77,12 @@ impl CargoBuild {
     /// escargot::CargoBuild::new()
     ///     .package("bin")
     ///     .bin("bin")
-    ///     .manifest_path("tests/fixtures/bin/Cargo.toml")
+    ///     .manifest_path("tests/testsuite/fixtures/bin/Cargo.toml")
     ///     .target_dir(temp.path())
     ///     .exec()
     ///     .unwrap();
     /// ```
-    pub fn package<S: AsRef<ffi::OsStr>>(self, name: S) -> Self {
+    pub fn package<S: AsRef<OsStr>>(self, name: S) -> Self {
         self.arg("--package").arg(name)
     }
 
@@ -97,7 +97,7 @@ impl CargoBuild {
     /// let temp = assert_fs::TempDir::new().unwrap();
     /// escargot::CargoBuild::new()
     ///     .bins()
-    ///     .manifest_path("tests/fixtures/bin/Cargo.toml")
+    ///     .manifest_path("tests/testsuite/fixtures/bin/Cargo.toml")
     ///     .target_dir(temp.path())
     ///     .exec()
     ///     .unwrap();
@@ -118,12 +118,12 @@ impl CargoBuild {
     /// let temp = assert_fs::TempDir::new().unwrap();
     /// escargot::CargoBuild::new()
     ///     .bin("bin")
-    ///     .manifest_path("tests/fixtures/bin/Cargo.toml")
+    ///     .manifest_path("tests/testsuite/fixtures/bin/Cargo.toml")
     ///     .target_dir(temp.path())
     ///     .exec()
     ///     .unwrap();
     /// ```
-    pub fn bin<S: AsRef<ffi::OsStr>>(mut self, name: S) -> Self {
+    pub fn bin<S: AsRef<OsStr>>(mut self, name: S) -> Self {
         self.bin = true;
         self.arg("--bin").arg(name)
     }
@@ -139,7 +139,7 @@ impl CargoBuild {
     /// let temp = assert_fs::TempDir::new().unwrap();
     /// escargot::CargoBuild::new()
     ///     .examples()
-    ///     .manifest_path("tests/fixtures/example/Cargo.toml")
+    ///     .manifest_path("tests/testsuite/fixtures/example/Cargo.toml")
     ///     .target_dir(temp.path())
     ///     .exec()
     ///     .unwrap();
@@ -160,12 +160,12 @@ impl CargoBuild {
     /// let temp = assert_fs::TempDir::new().unwrap();
     /// escargot::CargoBuild::new()
     ///     .example("example_fixture")
-    ///     .manifest_path("tests/fixtures/example/Cargo.toml")
+    ///     .manifest_path("tests/testsuite/fixtures/example/Cargo.toml")
     ///     .target_dir(temp.path())
     ///     .exec()
     ///     .unwrap();
     /// ```
-    pub fn example<S: AsRef<ffi::OsStr>>(mut self, name: S) -> Self {
+    pub fn example<S: AsRef<OsStr>>(mut self, name: S) -> Self {
         self.example = true;
         self.arg("--example").arg(name)
     }
@@ -181,7 +181,7 @@ impl CargoBuild {
     /// let temp = assert_fs::TempDir::new().unwrap();
     /// escargot::CargoBuild::new()
     ///     .tests()
-    ///     .manifest_path("tests/fixtures/test/Cargo.toml")
+    ///     .manifest_path("tests/testsuite/fixtures/test/Cargo.toml")
     ///     .target_dir(temp.path())
     ///     .exec()
     ///     .unwrap();
@@ -201,17 +201,17 @@ impl CargoBuild {
     /// let temp = assert_fs::TempDir::new().unwrap();
     /// escargot::CargoBuild::new()
     ///     .test("test")
-    ///     .manifest_path("tests/fixtures/test/Cargo.toml")
+    ///     .manifest_path("tests/testsuite/fixtures/test/Cargo.toml")
     ///     .target_dir(temp.path())
     ///     .exec()
     ///     .unwrap();
     /// ```
-    pub fn test<S: AsRef<ffi::OsStr>>(self, name: S) -> Self {
+    pub fn test<S: AsRef<OsStr>>(self, name: S) -> Self {
         self.arg("--test").arg(name)
     }
 
     /// Path to Cargo.toml
-    pub fn manifest_path<S: AsRef<ffi::OsStr>>(self, path: S) -> Self {
+    pub fn manifest_path<S: AsRef<OsStr>>(self, path: S) -> Self {
         self.arg("--manifest-path").arg(path)
     }
 
@@ -253,7 +253,7 @@ impl CargoBuild {
     }
 
     /// Build for the target triplet.
-    pub fn target<S: AsRef<ffi::OsStr>>(self, triplet: S) -> Self {
+    pub fn target<S: AsRef<OsStr>>(self, triplet: S) -> Self {
         self.arg("--target").arg(triplet)
     }
 
@@ -263,7 +263,7 @@ impl CargoBuild {
     }
 
     /// Directory for all generated artifacts
-    pub fn target_dir<S: AsRef<ffi::OsStr>>(self, dir: S) -> Self {
+    pub fn target_dir<S: AsRef<OsStr>>(self, dir: S) -> Self {
         self.arg("--target-dir").arg(dir)
     }
 
@@ -278,14 +278,14 @@ impl CargoBuild {
     }
 
     /// Space-separated list of features to activate
-    pub fn features<S: AsRef<ffi::OsStr>>(self, features: S) -> Self {
+    pub fn features<S: AsRef<OsStr>>(self, features: S) -> Self {
         self.arg("--features").arg(features)
     }
 
     /// Manually pass an argument that is unsupported.
     ///
     /// Caution: Passing in `--` can throw off the API.
-    pub fn arg<S: AsRef<ffi::OsStr>>(mut self, arg: S) -> Self {
+    pub fn arg<S: AsRef<OsStr>>(mut self, arg: S) -> Self {
         self.cmd.arg(arg);
         self
     }
@@ -293,7 +293,7 @@ impl CargoBuild {
     /// Manually pass arguments that are unsupported.
     ///
     /// Caution: Passing in `--` can throw off the API.
-    pub fn args<I: IntoIterator<Item = S>, S: AsRef<ffi::OsStr>>(mut self, args: I) -> Self {
+    pub fn args<I: IntoIterator<Item = S>, S: AsRef<OsStr>>(mut self, args: I) -> Self {
         self.cmd.args(args);
         self
     }
@@ -316,7 +316,7 @@ impl CargoBuild {
     ///     .bin("bin")
     ///     .current_release()
     ///     .current_target()
-    ///     .manifest_path("tests/fixtures/bin/Cargo.toml")
+    ///     .manifest_path("tests/testsuite/fixtures/bin/Cargo.toml")
     ///     .target_dir(temp.path())
     ///     .run()
     ///     .unwrap();
@@ -342,7 +342,7 @@ impl CargoBuild {
     ///     .test("test")
     ///     .current_release()
     ///     .current_target()
-    ///     .manifest_path("tests/fixtures/test/Cargo.toml")
+    ///     .manifest_path("tests/testsuite/fixtures/test/Cargo.toml")
     ///     .target_dir(temp.path())
     ///     .run_tests().unwrap()
     ///     .next().unwrap().unwrap();
