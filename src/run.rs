@@ -1,9 +1,9 @@
 use std::path;
 use std::process;
 
-use crate::error::*;
+use crate::error::{CargoError, CargoResult, ErrorKind};
 use crate::format;
-use crate::msg::*;
+use crate::msg::CommandMessages;
 
 /// The `run` subcommand (emulated).
 ///
@@ -26,7 +26,7 @@ use crate::msg::*;
 ///     .bin("bin")
 ///     .current_release()
 ///     .current_target()
-///     .manifest_path("tests/fixtures/bin/Cargo.toml")
+///     .manifest_path("tests/testsuite/fixtures/bin/Cargo.toml")
 ///     .target_dir(temp.path())
 ///     .run()
 ///     .unwrap();
@@ -68,7 +68,7 @@ impl CargoRun {
     ///     .bin("bin")
     ///     .current_release()
     ///     .current_target()
-    ///     .manifest_path("tests/fixtures/bin/Cargo.toml")
+    ///     .manifest_path("tests/testsuite/fixtures/bin/Cargo.toml")
     ///     .target_dir(temp.path())
     ///     .run()
     ///     .unwrap();
@@ -81,7 +81,7 @@ impl CargoRun {
     ///     .example("example_fixture")
     ///     .current_release()
     ///     .current_target()
-    ///     .manifest_path("tests/fixtures/example/Cargo.toml")
+    ///     .manifest_path("tests/testsuite/fixtures/example/Cargo.toml")
     ///     .target_dir(temp.path())
     ///     .run()
     ///     .unwrap();
@@ -103,7 +103,7 @@ impl CargoRun {
     ///     .bin("bin")
     ///     .current_release()
     ///     .current_target()
-    ///     .manifest_path("tests/fixtures/bin/Cargo.toml")
+    ///     .manifest_path("tests/testsuite/fixtures/bin/Cargo.toml")
     ///     .target_dir(temp.path())
     ///     .run()
     ///     .unwrap()
@@ -122,7 +122,7 @@ impl CargoRun {
     ///     .example("example_fixture")
     ///     .current_release()
     ///     .current_target()
-    ///     .manifest_path("tests/fixtures/example/Cargo.toml")
+    ///     .manifest_path("tests/testsuite/fixtures/example/Cargo.toml")
     ///     .target_dir(temp.path())
     ///     .run()
     ///     .unwrap()
@@ -143,7 +143,7 @@ fn extract_bin<'a>(msg: &'a format::Message<'_>, desired_kind: &str) -> Option<&
                 && art.target.crate_types == ["bin"]
                 && art.target.kind == [desired_kind]
             {
-                Some(art.filenames.get(0).expect("files must exist"))
+                Some(art.filenames.first().expect("files must exist"))
             } else {
                 None
             }

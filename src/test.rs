@@ -1,9 +1,9 @@
 use std::path;
 use std::process;
 
-use crate::error::*;
+use crate::error::{CargoError, CargoResult};
 use crate::format;
-use crate::msg::*;
+use crate::msg::CommandMessages;
 
 /// The `test` subcommand (emulated).
 ///
@@ -28,7 +28,7 @@ use crate::msg::*;
 /// let temp = assert_fs::TempDir::new().unwrap();
 /// let run = escargot::CargoBuild::new()
 ///     .test("test")
-///     .manifest_path("tests/fixtures/test/Cargo.toml")
+///     .manifest_path("tests/testsuite/fixtures/test/Cargo.toml")
 ///     .target_dir(temp.path())
 ///     .run_tests().unwrap()
 ///     .next().unwrap().unwrap();
@@ -64,7 +64,7 @@ impl CargoTest {
     ///     .tests()
     ///     .current_release()
     ///     .current_target()
-    ///     .manifest_path("tests/fixtures/test/Cargo.toml")
+    ///     .manifest_path("tests/testsuite/fixtures/test/Cargo.toml")
     ///     .target_dir(temp.path())
     ///     .run_tests()
     ///     .unwrap()
@@ -93,7 +93,7 @@ impl CargoTest {
     ///     .tests()
     ///     .current_release()
     ///     .current_target()
-    ///     .manifest_path("tests/fixtures/test/Cargo.toml")
+    ///     .manifest_path("tests/testsuite/fixtures/test/Cargo.toml")
     ///     .target_dir(temp.path())
     ///     .run_tests()
     ///     .unwrap()
@@ -122,7 +122,7 @@ impl CargoTest {
     ///     .tests()
     ///     .current_release()
     ///     .current_target()
-    ///     .manifest_path("tests/fixtures/test/Cargo.toml")
+    ///     .manifest_path("tests/testsuite/fixtures/test/Cargo.toml")
     ///     .target_dir(temp.path())
     ///     .run_tests()
     ///     .unwrap()
@@ -154,13 +154,13 @@ fn extract_bin(msg: &format::Message<'_>) -> Option<CargoTest> {
             if art.profile.test {
                 let bin_path = art
                     .filenames
-                    .get(0)
+                    .first()
                     .expect("files must exist")
                     .to_path_buf();
                 let kind = art
                     .target
                     .kind
-                    .get(0)
+                    .first()
                     .expect("kind must exist")
                     .as_ref()
                     .to_owned();
