@@ -3,7 +3,7 @@ use std::process;
 
 use crate::cargo::Cargo;
 use crate::cargo::CURRENT_TARGET;
-use crate::error::{CargoError, CargoResult};
+use crate::error::CargoResult;
 use crate::msg::CommandMessages;
 use crate::run::CargoRun;
 #[cfg(feature = "test_unstable")]

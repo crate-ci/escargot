@@ -76,7 +76,7 @@ pub struct DiagnosticSpan<'a> {
     /// Is this a "primary" span -- meaning the point, or one of the points,
     /// where the error occurred?
     pub is_primary: bool,
-    /// Source text from the start of line_start to the end of line_end.
+    /// Source text from the start of `line_start` to the end of `line_end`.
     #[serde(borrow)]
     pub text: Vec<DiagnosticSpanLine<'a>>,
     /// Label that should be placed at this location (if any)
