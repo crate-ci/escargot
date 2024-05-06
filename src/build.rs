@@ -349,7 +349,7 @@ impl CargoBuild {
     /// println!("artifact={}", run.path().display());
     /// ```
     #[cfg(feature = "test_unstable")]
-    pub fn run_tests(self) -> CargoResult<impl Iterator<Item = Result<CargoTest, CargoError>>> {
+    pub fn run_tests(self) -> CargoResult<impl Iterator<Item = CargoResult<CargoTest>>> {
         let msgs = CommandMessages::with_command(self.cmd)?;
         Ok(CargoTest::with_messages(msgs))
     }
