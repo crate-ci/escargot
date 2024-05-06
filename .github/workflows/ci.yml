@@ -50,7 +50,7 @@ jobs:
     - name: Build
       run: cargo test --workspace --no-run
     - name: Test
-      run: cargo hack test --feature-powerset --workspace
+      run: cargo hack test --feature-powerset --exclude-features strict_unstable --workspace
   msrv:
     name: "Check MSRV"
     runs-on: ubuntu-latest
@@ -64,7 +64,7 @@ jobs:
     - uses: Swatinem/rust-cache@v2
     - uses: taiki-e/install-action@cargo-hack
     - name: Default features
-      run: cargo hack check --feature-powerset --locked --rust-version --ignore-private --workspace --all-targets
+      run: cargo hack check --feature-powerset --exclude-features strict_unstable --locked --rust-version --ignore-private --workspace --all-targets
   lockfile:
     runs-on: ubuntu-latest
     steps:
