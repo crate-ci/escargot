@@ -21,13 +21,13 @@ use crate::msg::CommandMessages;
 ///
 /// To create a [`CargoRun`]:
 /// ```rust
-/// let temp = assert_fs::TempDir::new().unwrap();
+/// # let target_dir = tempfile::TempDir::new().unwrap();
 /// let run = escargot::CargoBuild::new()
 ///     .bin("bin")
 ///     .current_release()
 ///     .current_target()
 ///     .manifest_path("tests/testsuite/fixtures/bin/Cargo.toml")
-///     .target_dir(temp.path())
+///     .target_dir(target_dir.path())
 ///     .run()
 ///     .unwrap();
 /// println!("artifact={}", run.path().display());
@@ -63,26 +63,26 @@ impl CargoRun {
     /// # Example
     ///
     /// ```rust
-    /// let temp = assert_fs::TempDir::new().unwrap();
+    /// # let target_dir = tempfile::TempDir::new().unwrap();
     /// let run = escargot::CargoBuild::new()
     ///     .bin("bin")
     ///     .current_release()
     ///     .current_target()
     ///     .manifest_path("tests/testsuite/fixtures/bin/Cargo.toml")
-    ///     .target_dir(temp.path())
+    ///     .target_dir(target_dir.path())
     ///     .run()
     ///     .unwrap();
     /// println!("artifact={}", run.path().display());
     /// ```
     /// or
     /// ```rust,no_run
-    /// let temp = assert_fs::TempDir::new().unwrap();
+    /// # let target_dir = tempfile::TempDir::new().unwrap();
     /// let run = escargot::CargoBuild::new()
     ///     .example("example_fixture")
     ///     .current_release()
     ///     .current_target()
     ///     .manifest_path("tests/testsuite/fixtures/example/Cargo.toml")
-    ///     .target_dir(temp.path())
+    ///     .target_dir(target_dir.path())
     ///     .run()
     ///     .unwrap();
     /// println!("artifact={}", run.path().display());
@@ -98,13 +98,13 @@ impl CargoRun {
     /// # Example
     ///
     /// ```rust,no_run
-    /// let temp = assert_fs::TempDir::new().unwrap();
+    /// # let target_dir = tempfile::TempDir::new().unwrap();
     /// let run = escargot::CargoBuild::new()
     ///     .bin("bin")
     ///     .current_release()
     ///     .current_target()
     ///     .manifest_path("tests/testsuite/fixtures/bin/Cargo.toml")
-    ///     .target_dir(temp.path())
+    ///     .target_dir(target_dir.path())
     ///     .run()
     ///     .unwrap()
     ///     .command()
@@ -114,16 +114,13 @@ impl CargoRun {
     /// ```
     /// or
     /// ```rust
-    /// extern crate escargot;
-    /// extern crate assert_fs;
-    ///
-    /// let temp = assert_fs::TempDir::new().unwrap();
+    /// # let target_dir = tempfile::TempDir::new().unwrap();
     /// let run = escargot::CargoBuild::new()
     ///     .example("example_fixture")
     ///     .current_release()
     ///     .current_target()
     ///     .manifest_path("tests/testsuite/fixtures/example/Cargo.toml")
-    ///     .target_dir(temp.path())
+    ///     .target_dir(target_dir.path())
     ///     .run()
     ///     .unwrap()
     ///     .command()

@@ -22,14 +22,11 @@ use crate::msg::CommandMessages;
 /// # Example
 ///
 /// ```rust
-/// extern crate escargot;
-/// extern crate assert_fs;
-///
-/// let temp = assert_fs::TempDir::new().unwrap();
+/// # let target_dir = tempfile::TempDir::new().unwrap();
 /// let run = escargot::CargoBuild::new()
 ///     .test("test")
 ///     .manifest_path("tests/testsuite/fixtures/test/Cargo.toml")
-///     .target_dir(temp.path())
+///     .target_dir(target_dir.path())
 ///     .run_tests().unwrap()
 ///     .next().unwrap().unwrap();
 /// println!("artifact={}", run.path().display());
@@ -56,16 +53,13 @@ impl CargoTest {
     /// # Example
     ///
     /// ```rust
-    /// extern crate escargot;
-    /// extern crate assert_fs;
-    ///
-    /// let temp = assert_fs::TempDir::new().unwrap();
+    /// # let target_dir = tempfile::TempDir::new().unwrap();
     /// let run: Result<Vec<_>, _> = escargot::CargoBuild::new()
     ///     .tests()
     ///     .current_release()
     ///     .current_target()
     ///     .manifest_path("tests/testsuite/fixtures/test/Cargo.toml")
-    ///     .target_dir(temp.path())
+    ///     .target_dir(target_dir.path())
     ///     .run_tests()
     ///     .unwrap()
     ///     .collect();
@@ -85,16 +79,13 @@ impl CargoTest {
     /// # Example
     ///
     /// ```rust
-    /// extern crate escargot;
-    /// extern crate assert_fs;
-    ///
-    /// let temp = assert_fs::TempDir::new().unwrap();
+    /// # let target_dir = tempfile::TempDir::new().unwrap();
     /// let run: Result<Vec<_>, _> = escargot::CargoBuild::new()
     ///     .tests()
     ///     .current_release()
     ///     .current_target()
     ///     .manifest_path("tests/testsuite/fixtures/test/Cargo.toml")
-    ///     .target_dir(temp.path())
+    ///     .target_dir(target_dir.path())
     ///     .run_tests()
     ///     .unwrap()
     ///     .collect();
@@ -114,16 +105,13 @@ impl CargoTest {
     /// # Example
     ///
     /// ```rust
-    /// extern crate escargot;
-    /// extern crate assert_fs;
-    ///
-    /// let temp = assert_fs::TempDir::new().unwrap();
+    /// # let target_dir = tempfile::TempDir::new().unwrap();
     /// let run: Vec<_> = escargot::CargoBuild::new()
     ///     .tests()
     ///     .current_release()
     ///     .current_target()
     ///     .manifest_path("tests/testsuite/fixtures/test/Cargo.toml")
-    ///     .target_dir(temp.path())
+    ///     .target_dir(target_dir.path())
     ///     .run_tests()
     ///     .unwrap()
     ///     .collect();

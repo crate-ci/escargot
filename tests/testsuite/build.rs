@@ -1,5 +1,5 @@
 fn test_fixture(name: &str) {
-    let temp = assert_fs::TempDir::new().unwrap();
+    let temp = tempfile::TempDir::new().unwrap();
 
     let msgs = escargot::CargoBuild::new()
         .manifest_path(format!("tests/testsuite/fixtures/{}/Cargo.toml", name))
