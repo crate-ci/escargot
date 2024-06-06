@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+## [0.5.11] - 2024-06-06
+
 ### Compatibility
 
 - Dropped MSRV to 1.65
@@ -143,7 +145,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 *   Define concrete CargoError ([445cb391](https://github.com/crate-ci/escargot/commit/445cb39156b63ce1894d40b31805273d995e185c), breaks [#](https://github.com/crate-ci/escargot/issues/))
 
 <!-- next-url -->
-[Unreleased]: https://github.com/crate-ci/escargot/compare/v0.5.10...HEAD
+[Unreleased]: https://github.com/crate-ci/escargot/compare/v0.5.11...HEAD
+[0.5.11]: https://github.com/crate-ci/escargot/compare/v0.5.10...v0.5.11
 [0.5.10]: https://github.com/crate-ci/escargot/compare/v0.5.9...v0.5.10
 [0.5.9]: https://github.com/crate-ci/escargot/compare/v0.5.8...v0.5.9
 [0.5.8]: https://github.com/crate-ci/escargot/compare/v0.5.7...v0.5.8
