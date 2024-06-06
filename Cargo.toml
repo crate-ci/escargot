@@ -4,7 +4,7 @@ resolver = "2"
 [workspace.package]
 license = "MIT OR Apache-2.0"
 edition = "2021"
-rust-version = "1.74"  # MSRV
+rust-version = "1.65"  # MSRV
 include = [
   "build.rs",
   "src/**/*",
@@ -131,7 +131,7 @@ once_cell = "1.2.0"
 log = "0.4.4"
 
 [dev-dependencies]
-assert_fs = "1.1"
+tempfile = "3.3.0"
 automod = "1.0.14"
 
 [lints]
