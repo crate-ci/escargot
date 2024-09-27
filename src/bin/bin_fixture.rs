@@ -6,10 +6,10 @@ use std::process;
 
 fn run() -> Result<(), Box<dyn Error>> {
     if let Ok(text) = env::var("stdout") {
-        println!("{}", text);
+        println!("{text}");
     }
     if let Ok(text) = env::var("stderr") {
-        eprintln!("{}", text);
+        eprintln!("{text}");
     }
 
     let code = env::var("exit")
@@ -25,7 +25,7 @@ fn main() {
     let code = match run() {
         Ok(_) => 0,
         Err(ref e) => {
-            write!(&mut io::stderr(), "{}", e).expect("writing to stderr won't fail");
+            write!(&mut io::stderr(), "{e}").expect("writing to stderr won't fail");
             1
         }
     };

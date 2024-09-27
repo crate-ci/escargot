@@ -2,7 +2,7 @@ fn test_fixture(name: &str) {
     let temp = tempfile::TempDir::new().unwrap();
 
     let msgs = escargot::CargoBuild::new()
-        .manifest_path(format!("tests/testsuite/fixtures/{}/Cargo.toml", name))
+        .manifest_path(format!("tests/testsuite/fixtures/{name}/Cargo.toml"))
         .current_release()
         .current_target()
         .target_dir(temp.path())
@@ -12,8 +12,8 @@ fn test_fixture(name: &str) {
         let raw_msg = msg.unwrap();
         let msg = raw_msg.decode();
         match msg {
-            Ok(msg) => println!("{:#?}", msg),
-            Err(err) => panic!("{}\nmsg=`{:#?}`", err, raw_msg),
+            Ok(msg) => println!("{msg:#?}"),
+            Err(err) => panic!("{err}\nmsg=`{raw_msg:#?}`"),
         }
     }
 }
@@ -62,7 +62,7 @@ fn test_error() {
     for msg in &msgs[0..error_idx] {
         let msg = msg.as_ref().unwrap();
         let msg = msg.decode().unwrap();
-        println!("{:#?}", msg);
+        println!("{msg:#?}");
     }
     assert!(msgs[error_idx].is_err());
     println!("```{}```", msgs[error_idx].as_ref().err().unwrap());
