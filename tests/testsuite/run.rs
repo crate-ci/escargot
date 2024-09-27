@@ -2,7 +2,7 @@ fn test_fixture(name: &str) {
     let temp = tempfile::TempDir::new().unwrap();
 
     let cmd = escargot::CargoBuild::new()
-        .manifest_path(format!("tests/testsuite/fixtures/{}/Cargo.toml", name))
+        .manifest_path(format!("tests/testsuite/fixtures/{name}/Cargo.toml"))
         .current_release()
         .current_target()
         .target_dir(temp.path())

@@ -81,10 +81,10 @@ impl fmt::Display for CargoError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         writeln!(f, "Cargo command failed: {}", self.kind)?;
         if let Some(ref context) = self.context {
-            writeln!(f, "{}", context)?;
+            writeln!(f, "{context}")?;
         }
         if let Some(ref cause) = self.cause {
-            writeln!(f, "Cause: {}", cause)?;
+            writeln!(f, "Cause: {cause}")?;
         }
         Ok(())
     }

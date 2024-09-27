@@ -247,11 +247,11 @@ pub(crate) fn log_message(msg: &Message<'_>) {
                 .map(|s| s.as_ref())
                 .unwrap_or_else(|| comp.message.message.as_ref());
             match comp.message.level {
-                diagnostic::DiagnosticLevel::Ice => eprintln!("{}", content),
-                diagnostic::DiagnosticLevel::Error => eprintln!("{}", content),
-                diagnostic::DiagnosticLevel::Warning => eprintln!("{}", content),
-                diagnostic::DiagnosticLevel::Note => eprintln!("{}", content),
-                diagnostic::DiagnosticLevel::Help => eprintln!("{}", content),
+                diagnostic::DiagnosticLevel::Ice => eprintln!("{content}"),
+                diagnostic::DiagnosticLevel::Error => eprintln!("{content}"),
+                diagnostic::DiagnosticLevel::Warning => eprintln!("{content}"),
+                diagnostic::DiagnosticLevel::Note => eprintln!("{content}"),
+                diagnostic::DiagnosticLevel::Help => eprintln!("{content}"),
                 #[cfg(not(feature = "strict_unstable"))]
                 _ => eprintln!("Unknown message: {:#?}", msg),
             }
