@@ -137,8 +137,8 @@ pub struct ArtifactProfile<'a> {
     /// Optimization level. Possible values are 0-3, s or z.
     #[serde(borrow)]
     pub opt_level: CowStr<'a>,
-    /// The amount of debug info. 0 for none, 1 for limited, 2 for full
-    pub debuginfo: Option<u32>,
+    /// The amount of debug info.
+    pub debuginfo: Option<DebugInfo<'a>>,
     /// State of the `cfg(debug_assertions)` directive, enabling macros like
     /// `debug_assert!`
     pub debug_assertions: bool,
@@ -146,6 +146,19 @@ pub struct ArtifactProfile<'a> {
     pub overflow_checks: bool,
     /// Whether this profile is a test
     pub test: bool,
+}
+
+/// The amount of debug info. 0 for none, 1 for limited, 2 for full
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[cfg_attr(feature = "strict_unstable", serde(deny_unknown_fields))]
+#[serde(untagged)]
+#[non_exhaustive]
+pub enum DebugInfo<'a> {
+    /// 0 for none, 1 for limited, 2 for full
+    Level(u32),
+    /// none, limited, full, etc
+    #[serde(borrow)]
+    Name(CowStr<'a>),
 }
 
 /// Message left by the compiler
