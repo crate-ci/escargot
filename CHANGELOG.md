@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+### Fixes
+
+- Add support for new `debuginfo` values
+
 ## [0.5.12] - 2024-07-25
 
 ## [0.5.11] - 2024-06-06
