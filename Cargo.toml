@@ -87,7 +87,7 @@ zero_sized_map_values = "warn"
 
 [package]
 name = "escargot"
-version = "0.5.12"
+version = "0.5.13"
 description = "Cargo API written in Paris"
 homepage = "https://github.com/crate-ci/escargot"
 categories = ["development-tools::build-utils"]
