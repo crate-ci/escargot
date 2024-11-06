@@ -52,10 +52,10 @@ pub struct Artifact<'a> {
     /// The full path to the artifact's manifest
     #[serde(borrow)]
     pub manifest_path: Option<CowPath<'a>>,
-    /// The target this artifact was compiled for
+    /// The cargo target (lib, bin, example, etc.) that generated the artifacts.
     #[serde(borrow)]
     pub target: Target<'a>,
-    /// The profile this artifact was compiled with
+    /// The profile indicates which compiler settings were used.
     #[serde(borrow)]
     pub profile: ArtifactProfile<'a>,
     /// The enabled features for this artifact
@@ -64,11 +64,17 @@ pub struct Artifact<'a> {
     /// The full paths to the generated artifacts
     #[serde(borrow)]
     pub filenames: Vec<CowPath<'a>>,
-    /// The full paths to the generated artifacts
+    /// The path to the executable that was created
+    ///
+    /// `None` if this step did not generate an executable.
     #[serde(borrow)]
     #[serde(default)]
     pub executable: Option<CowPath<'a>>,
-    /// If true, then the files were already generated
+    /// Whether or not this step was actually executed.
+    ///
+    /// When `true`, this means that the pre-existing artifacts were
+    /// up-to-date, and `rustc` was not executed. When `false`, this means that
+    /// `rustc` was run to generate the artifacts.
     pub fresh: bool,
 }
 
