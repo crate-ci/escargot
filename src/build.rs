@@ -214,15 +214,15 @@ impl CargoBuild {
     }
 
     /// Build artifacts in release mode if the current process has, with optimizations.
-    #[cfg(debug_assertions)]
     pub fn current_release(self) -> Self {
-        self
-    }
-
-    /// Build artifacts in release mode if the current process has, with optimizations.
-    #[cfg(not(debug_assertions))]
-    pub fn current_release(self) -> Self {
-        self.release()
+        #[cfg(debug_assertions)]
+        {
+            self
+        }
+        #[cfg(not(debug_assertions))]
+        {
+            self.release()
+        }
     }
 
     /// Build for the target triplet.
