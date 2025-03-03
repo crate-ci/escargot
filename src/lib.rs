@@ -57,3 +57,7 @@ pub use test::*;
 
 pub mod error;
 pub mod format;
+
+#[doc = include_str!("../README.md")]
+#[cfg(doctest)]
+pub struct ReadmeDoctests;
