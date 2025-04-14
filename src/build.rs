@@ -59,6 +59,11 @@ impl CargoBuild {
         }
     }
 
+    /// Return the underlying [`process::Command`]
+    pub fn into_command(self) -> process::Command {
+        self.cmd
+    }
+
     /// Build from `name` package in workspaces.
     ///
     /// # Example

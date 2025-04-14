@@ -51,6 +51,11 @@ impl Cargo {
         self.cmd.arg(name).arg("--message-format=json");
         CargoBuild::with_command(self.cmd)
     }
+
+    /// Return the underlying [`process::Command`]
+    pub fn into_command(self) -> process::Command {
+        self.cmd
+    }
 }
 
 impl Default for Cargo {
