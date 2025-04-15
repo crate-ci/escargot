@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+## [0.5.14] - 2025-04-15
+
 ### Features
 
 - Add `into_command()` functions
@@ -158,7 +160,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 *   Define concrete CargoError ([445cb391](https://github.com/crate-ci/escargot/commit/445cb39156b63ce1894d40b31805273d995e185c), breaks [#](https://github.com/crate-ci/escargot/issues/))
 
 <!-- next-url -->
-[Unreleased]: https://github.com/crate-ci/escargot/compare/v0.5.13...HEAD
+[Unreleased]: https://github.com/crate-ci/escargot/compare/v0.5.14...HEAD
+[0.5.14]: https://github.com/crate-ci/escargot/compare/v0.5.13...v0.5.14
 [0.5.13]: https://github.com/crate-ci/escargot/compare/v0.5.12...v0.5.13
 [0.5.12]: https://github.com/crate-ci/escargot/compare/v0.5.11...v0.5.12
 [0.5.11]: https://github.com/crate-ci/escargot/compare/v0.5.10...v0.5.11
