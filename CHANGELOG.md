@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+### Features
+
+- Add `into_command()` functions
+- Add `Debug` impls
+
 ## [0.5.13] - 2024-10-29
 
 ### Fixes
