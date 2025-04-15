@@ -24,6 +24,7 @@ use crate::test::CargoTest;
 ///     .exec()
 ///     .unwrap();
 /// ```
+#[derive(Debug)]
 pub struct CargoBuild {
     cmd: process::Command,
     bin: bool,

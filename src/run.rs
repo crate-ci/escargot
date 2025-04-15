@@ -34,6 +34,7 @@ use crate::msg::CommandMessages;
 /// ```
 /// See [`CargoRun::path`] for how to then run the newly compiled
 /// program.
+#[derive(Debug)]
 pub struct CargoRun {
     bin_path: path::PathBuf,
 }

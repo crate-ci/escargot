@@ -7,8 +7,10 @@ use crate::error::{CargoError, CargoResult, ErrorKind};
 use crate::format;
 
 /// Messages returned from a cargo sub-command.
+#[derive(Debug)]
 pub struct CommandMessages(InnerCommandMessages);
 
+#[derive(Debug)]
 struct InnerCommandMessages {
     done: bool,
     child: process::Child,

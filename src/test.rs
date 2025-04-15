@@ -33,6 +33,7 @@ use crate::msg::CommandMessages;
 /// ```
 ///
 /// [`CargoBuild::run_tests`]: crate::CargoBuild::run_tests()
+#[derive(Debug)]
 pub struct CargoTest {
     bin_path: path::PathBuf,
     kind: String,
