@@ -8,8 +8,10 @@ use crate::build::CargoBuild;
 /// The current process' target triplet.
 pub const CURRENT_TARGET: &str = include_str!(concat!(env!("OUT_DIR"), "/current_target.txt"));
 
-static CARBO_BIN: once_cell::sync::Lazy<ffi::OsString> =
-    once_cell::sync::Lazy::new(|| env::var_os("CARGO").unwrap_or_else(|| "cargo".into()));
+fn cargo_bin() -> &'static ffi::OsStr {
+    static CARGO_BIN: std::sync::OnceLock<ffi::OsString> = std::sync::OnceLock::new();
+    CARGO_BIN.get_or_init(|| env::var_os("CARGO").unwrap_or_else(|| "cargo".into()))
+}
 
 /// Top-level command.
 #[derive(Debug)]
@@ -21,7 +23,7 @@ impl Cargo {
     /// Create a top-level command.
     pub fn new() -> Self {
         Self {
-            cmd: process::Command::new(CARBO_BIN.as_os_str()),
+            cmd: process::Command::new(cargo_bin()),
         }
     }
 
