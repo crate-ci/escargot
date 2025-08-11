@@ -97,7 +97,7 @@ lto = true
 
 [package]
 name = "escargot"
-version = "0.5.14"
+version = "0.5.15"
 description = "Cargo API written in Paris"
 homepage = "https://github.com/crate-ci/escargot"
 categories = ["development-tools::build-utils"]
