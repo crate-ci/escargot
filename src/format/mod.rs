@@ -218,13 +218,13 @@ pub struct BuildScript<'a> {
 #[cfg(not(feature = "print"))]
 pub(crate) fn log_message(msg: &Message<'_>) {
     match msg {
-        Message::BuildFinished(ref finished) => {
+        Message::BuildFinished(finished) => {
             log::trace!("Build Finished: {:?}", finished.success);
         }
-        Message::CompilerArtifact(ref art) => {
+        Message::CompilerArtifact(art) => {
             log::trace!("Building {:#?}", art.package_id,);
         }
-        Message::CompilerMessage(ref comp) => {
+        Message::CompilerMessage(comp) => {
             let content = comp
                 .message
                 .rendered
@@ -241,7 +241,7 @@ pub(crate) fn log_message(msg: &Message<'_>) {
                 _ => log::warn!("Unknown message: {:#?}", msg),
             }
         }
-        Message::BuildScriptExecuted(ref script) => {
+        Message::BuildScriptExecuted(script) => {
             log::trace!("Ran script from {:#?}", script.package_id);
         }
         #[cfg(not(feature = "strict_unstable"))]
@@ -255,13 +255,13 @@ pub(crate) fn log_message(msg: &Message<'_>) {
 #[allow(clippy::print_stderr)]
 pub(crate) fn log_message(msg: &Message<'_>) {
     match msg {
-        Message::BuildFinished(ref finished) => {
+        Message::BuildFinished(finished) => {
             eprintln!("Build Finished: {:?}", finished.success);
         }
-        Message::CompilerArtifact(ref art) => {
+        Message::CompilerArtifact(art) => {
             eprintln!("Building {:#?}", art.package_id,);
         }
-        Message::CompilerMessage(ref comp) => {
+        Message::CompilerMessage(comp) => {
             let content = comp
                 .message
                 .rendered
@@ -278,7 +278,7 @@ pub(crate) fn log_message(msg: &Message<'_>) {
                 _ => eprintln!("Unknown message: {:#?}", msg),
             }
         }
-        Message::BuildScriptExecuted(ref script) => {
+        Message::BuildScriptExecuted(script) => {
             eprintln!("Ran script from {:#?}", script.package_id);
         }
         #[cfg(not(feature = "strict_unstable"))]
