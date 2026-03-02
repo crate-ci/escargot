@@ -1,8 +1,8 @@
 use std::ffi::OsStr;
 use std::process;
 
-use crate::cargo::Cargo;
 use crate::cargo::CURRENT_TARGET;
+use crate::cargo::Cargo;
 use crate::error::CargoResult;
 use crate::msg::CommandMessages;
 use crate::run::CargoRun;
