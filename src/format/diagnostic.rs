@@ -135,7 +135,7 @@ pub struct Diagnostic<'a> {
     pub spans: Vec<DiagnosticSpan<'a>>,
     /// Associated diagnostic messages.
     #[serde(borrow)]
-    pub children: Vec<Diagnostic<'a>>,
+    pub children: Vec<Self>,
     /// The message as rustc would render it
     #[serde(borrow)]
     pub rendered: Option<CowStr<'a>>,

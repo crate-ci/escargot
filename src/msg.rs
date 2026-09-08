@@ -36,7 +36,7 @@ impl CommandMessages {
             stdout,
             stderr,
         };
-        Ok(CommandMessages(msgs))
+        Ok(Self(msgs))
     }
 
     #[inline]
