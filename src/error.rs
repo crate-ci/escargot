@@ -20,9 +20,9 @@ pub enum ErrorKind {
 impl fmt::Display for ErrorKind {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match *self {
-            ErrorKind::InvalidOutput => write!(f, "Spawning the cargo subommand failed."),
-            ErrorKind::CommandFailed => write!(f, "The cargo subcommand returned an error."),
-            ErrorKind::InvalidCommand => write!(f, "Parsing the cargo subcommand's output failed."),
+            Self::InvalidOutput => write!(f, "Spawning the cargo subommand failed."),
+            Self::CommandFailed => write!(f, "The cargo subcommand returned an error."),
+            Self::InvalidCommand => write!(f, "Parsing the cargo subcommand's output failed."),
         }
     }
 }
