@@ -2,8 +2,8 @@
 
 > **Cargo API written in Paris**
 
-[![codecov](https://codecov.io/gh/crate-ci/escargot/branch/master/graph/badge.svg)](https://codecov.io/gh/crate-ci/escargot)
-[![Documentation](https://img.shields.io/badge/docs-master-blue.svg)][Documentation]
+[![codecov](https://codecov.io/gh/crate-ci/escargot/branch/main/graph/badge.svg)](https://codecov.io/gh/crate-ci/escargot)
+[![Documentation](https://img.shields.io/badge/docs-main-blue.svg)][Documentation]
 ![License](https://img.shields.io/crates/l/escargot.svg)
 [![Crates Status](https://img.shields.io/crates/v/escargot.svg)][Crates.io]
 
