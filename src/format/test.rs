@@ -57,6 +57,7 @@ pub struct SuiteOk {
     /// Cases that failed.
     pub failed: usize,
     /// Cases that were allowed to fail.
+    #[serde(default)]
     pub allowed_fail: usize,
     /// Ignored cases.
     pub ignored: usize,
@@ -75,6 +76,7 @@ pub struct SuiteFailed {
     /// Cases that failed.
     pub failed: usize,
     /// Cases that were allowed to fail.
+    #[serde(default)]
     pub allowed_fail: usize,
     /// Ignored cases.
     pub ignored: usize,
