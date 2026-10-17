@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+### Compatibility
+
+- Bumped MSRV to 1.85
+
+### Features
+
+- Add `CargoBuild::profile`
+
 ## [0.5.15] - 2025-08-11
 
 ### Features
