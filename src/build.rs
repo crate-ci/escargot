@@ -199,6 +199,11 @@ impl CargoBuild {
         self.arg("--release")
     }
 
+    /// Build artifacts with the specified profile.
+    pub fn profile<S: AsRef<OsStr>>(self, profile: S) -> Self {
+        self.arg("--profile").arg(profile)
+    }
+
     /// Inserts or updates an environment variable mapping.
     pub fn env<K, V>(mut self, key: K, val: V) -> Self
     where
