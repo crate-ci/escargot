@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+## [1.0.1] - 2026-10-18
+
 ### Fixes
 
 - libtest: ignore no-longer-present field
@@ -180,7 +182,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 *   Define concrete CargoError ([445cb391](https://github.com/crate-ci/escargot/commit/445cb39156b63ce1894d40b31805273d995e185c), breaks [#](https://github.com/crate-ci/escargot/issues/))
 
 <!-- next-url -->
-[Unreleased]: https://github.com/crate-ci/escargot.git/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/crate-ci/escargot.git/compare/v1.0.1...HEAD
+[1.0.1]: https://github.com/crate-ci/escargot.git/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/crate-ci/escargot/compare/v0.5.15...v1.0.0
 [0.5.15]: https://github.com/crate-ci/escargot/compare/v0.5.14...v0.5.15
 [0.5.14]: https://github.com/crate-ci/escargot/compare/v0.5.13...v0.5.14
